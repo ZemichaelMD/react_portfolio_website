@@ -1,0 +1,30 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Zemichael Mehretu</title>
+        <!-- tailwind -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            default_background: "rgb(243, 243, 243)",
+                            default_text: "rgb(243, 243, 243)",
+                        },
+                    },
+                },
+            };
+        </script>
+    </head>
+    <body class="h-screen">
+      <main class="main bg-default_background text-slate-800 h-full flex flex-col" id="root">
+
+      </main>
+    </body>
+  <script src="./src/index.jsx" type="module"></script>
+</body>
+</html>
