@@ -36,27 +36,27 @@ const Page = () => {
 
   return (
     <>
-      <div className="pt-16 pl-16 bg-white">
-        <h3 className="font-semibold mb-4 font-mono tracking-widest">
-          Zemichael Mehretu, Designer & Developer
+      <div className="pt-2 px-2 md:pt-16 md:pl-16 bg-white">
+        <h3 className="hidden md:inline md:text-lg md:font-semibold md:mb-4 font-mono tracking-widest">
+          Zemichael Mehretu, Designer | Developer
         </h3>
-        <div className="flex gap-8">
+        <div className="flex justify-between md:justify-start md:gap-8">
           <button
-            className="cursor-pointer"
+            className="cursor-pointer p-4 md:p-0"
             onClick={() => setContentName("about me")}
           >
             <FontAwesomeIcon icon={faUser} className="mr-3 text-slate-300" />
             <span
               className={`${
                 contentName === "about me"
-                  ? "text-3xl font-bold"
-                  : "text-slate-400"
-              } font-mono tracking-widest mb-4 hover:text-green-500`}
+                  ? "text-xl md:text-3xl font-bold"
+                  : "text-sm text-slate-400"
+              } font-mono tracking-widest md:mb-4 hover:text-green-500 text-nowrap`}
             >
               Who I am
             </span>
           </button>
-          · 
+          ·
           <button
             className="cursor-pointer"
             onClick={() => setContentName("bio")}
@@ -68,9 +68,9 @@ const Page = () => {
             <span
               className={`${
                 contentName === "bio"
-                  ? "text-3xl font-bold"
-                  : "text-slate-400"
-              } font-mono tracking-widest mb-4 hover:text-green-500`}
+                ? "text-xl md:text-3xl font-bold"
+                : "text-sm text-slate-400"
+              } font-mono tracking-widest mb-4 hover:text-green-500 text-nowrap`}
             >
               My Bio
             </span>
@@ -87,9 +87,9 @@ const Page = () => {
             <span
               className={`${
                 contentName === "skills"
-                  ? "text-3xl font-bold"
-                  : "text-slate-400"
-              } font-mono tracking-widest mb-4 hover:text-green-500`}
+                ? "text-xl md:text-3xl font-bold"
+                : "text-sm text-slate-400"
+              } font-mono tracking-widest mb-4 hover:text-green-500 text-nowrap`}
             >
               What I do
             </span>

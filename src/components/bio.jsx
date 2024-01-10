@@ -238,76 +238,75 @@ const bio = [
 ];
 
 const filterBio = (bio, type) => {
-  if(type === 'all') return bio;
+  if (type === "all") return bio;
   return bio.filter((item) => item.type === type);
 };
 
-export default function Bio() {
 
+export default function Bio() {
   const [bioItems, setBioItems] = useState(bio);
 
   const showOnly = (type) => {
     setBioItems(filterBio(bio, type));
-  }
+  };
 
   return (
-    <div className="w-100 h-full overflow-y-scroll">
-      <div class="z-100 w-full bg-white m-0 p-3 fixed flex justify-center align-items-center">
-        <button
-          className="cursor-pointer m-2"
-          onClick={() => showOnly('all')}
-        >
+    <div className="w-100 h-full overflow-y-scroll text-xs md:text-base">
+      <div class="z-100 w-full bg-white m-0 p-0 md:p-3 fixed flex justify-center align-items-center">
+        <button className="cursor-pointer m-2" onClick={() => showOnly("all")}>
           <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
           <span
             className={`font-mono tracking-widest mb-4 hover:text-green-500`}
           >
             All
           </span>
-        </button> __
-        <button
-          className="cursor-pointer m-2"
-          onClick={() => showOnly('job')}
-        >
+        </button>
+
+        <button className="cursor-pointer m-2" onClick={() => showOnly("job")}>
           <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
           <span
             className={`font-mono tracking-widest mb-4 hover:text-green-500`}
           >
-            Job Experience
-          </span>
-        </button> __
-        <button
-          className="cursor-pointer m-2"
-          onClick={() => showOnly('education')}
-        >
-          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
-          <span
-            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
-          >
-            Education
-          </span>
-        </button> __ 
-        <button
-          className="cursor-pointer m-2"
-          onClick={() => showOnly('certification')}
-        >
-          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
-          <span
-            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
-          >
-            Certification
-          </span>
-        </button> __ 
-        <button
-          className="cursor-pointer m-2"
-          onClick={() => showOnly('volunteer')}
-        >
-          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
-          <span
-            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
-          >
-            Volunteer Work
+            Jobs
           </span>
         </button>
+
+        <button
+          className="cursor-pointer m-2"
+          onClick={() => showOnly("education")}
+        >
+          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
+          <span
+            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
+          >
+            School
+          </span>
+        </button>
+
+        <button
+          className="cursor-pointer m-2"
+          onClick={() => showOnly("certification")}
+        >
+          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
+          <span
+            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
+          >
+            Certificate
+          </span>
+        </button>
+
+        <button
+          className="cursor-pointer m-2"
+          onClick={() => showOnly("volunteer")}
+        >
+          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
+          <span
+            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
+          >
+            Volunteer
+          </span>
+        </button>
+
       </div>
       <div
         id="tech-stack-container"

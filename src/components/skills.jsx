@@ -15,81 +15,163 @@ import {
 
 import { faDatabase } from "@fortawesome/free-solid-svg-icons";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
 
-const TechStackColumn = ({icons, text, ...props}) => {
+const TechStackColumn = ({ icons, text, ...props }) => {
   return (
-    <div className="group flex flex-col items-center w-full justify-center hover:bg-green-200" {...props}>
-      {icons.map(icon => (
-        <FontAwesomeIcon icon={icon} size="3x" />
-      ))}
-      <p className="text-center text-sm text-green-800 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        {text}
-      </p>
+    <div className="border flex justify-center align-items-center">
+      <div
+        className="group flex flex-col items-center w-full justify-center hover:bg-green-200"
+        {...props}
+      >
+        <div className="flex flex-row md:flex-col">
+          {icons.map((icon) => (
+            <FontAwesomeIcon
+              icon={icon}
+              className="mx-2 md:m-2 text-4xl md:text-6xl"
+            />
+          ))}
+        </div>
+        <p className="text-center text-sm text-green-800 mt-2 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {text}
+        </p>
+      </div>
     </div>
-  )
-}
+  );
+};
+
+const skillContent = [
+  {
+    name: "mern",
+    paragraphs: [
+      "MongoDB : a document-oriented NoSQL database used to store data as JSON-like documents.",
+      "Express :  a web application framework for Node.js, designed for building web applications and APIs.",
+      "React : a JavaScript library for building user interfaces.",
+      "Node.js : an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser.",
+    ],
+  },
+  {
+    name: "figma",
+    paragraphs: [
+      "Figma is a vector graphics editor and prototyping tool which is primarily web-based, with additional offline features enabled by desktop applications for macOS and Windows.",
+      "Prototyping : a process where you turn your static design into an interactive experience.",
+      "Design : a plan or drawing produced to show the look and function or workings of a building, garment, or other object before it is built or made."
+    ],
+  },
+  {
+    name: "html-css-js",
+    paragraphs: [
+      "HTML : the standard markup language for documents designed to be displayed in a web browser.",
+      "CSS : a style sheet language used for describing the presentation of a document written in a markup language such as HTML.",
+      "JavaScript : a programming language that conforms to the ECMAScript specification.",
+    ],
+  },
+  {
+    name: "php-laravel",
+    paragraphs: [
+      "PHP : a general-purpose scripting language especially suited to web development.",
+      "Laravel : a free, open-source PHP web framework, created by Taylor Otwell and intended for the development of web applications following the model–view–controller architectural pattern and based on Symfony.",
+    ],
+  },
+  {
+    name: "python-django",
+    paragraphs: [
+      "Python : an interpreted, high-level and general-purpose programming language.",
+      "Django : a Python-based free and open-source web framework that follows the model-template-views architectural pattern.",
+    ],
+  },
+  {
+    name: "git-github-linux",
+    paragraphs: [
+      "Git : a distributed version-control system for tracking changes in source code during software development.",
+      "Github : a provider of Internet hosting for software development and version control using Git.",
+      "Linux : a family of open-source Unix-like operating systems based on the Linux kernel, an operating system kernel first released on September 17, 1991, by Linus Torvalds.",
+    ],
+  },
+];
 
 export default function Skills() {
+  const [selectedSkill, setSelectedSkill] = useState("mern");
+  const [content, setContent] = useState(
+    skillContent.filter((skill) => skill.name === selectedSkill)[0]
+  );
+
+  console.log(content);
+
+  useEffect(() => {
+    switch (selectedSkill) {
+      case "mern":
+        setContent(skillContent[0]);
+        break;
+
+      case "figma":
+        setContent(skillContent[1]);
+        break;
+
+      case "html-css-js":
+        setContent(skillContent[2]);
+        break;
+
+      case "php-laravel":
+        setContent(skillContent[3]);
+        break;
+
+      case "python-django":
+        setContent(skillContent[4]);
+        break;
+
+      case "git-github-linux":
+        setContent(skillContent[5]);
+        break;
+
+      default:
+        break;
+    }
+  }, [selectedSkill]);
 
   return (
     <div
       id="tech-stack-container"
-      className="grid grid-cols-1 md:grid-cols-12 h-full overflow-hidden"
+      className="grid grid-cols-1 md:grid-cols-10 h-full overflow-hidden"
     >
-      <div className="border"></div>
-      <div className="border flex justify-center align-items-center">
-          <TechStackColumn icons={[faFigma]} text="Design | Prototyping" />
-      </div>
-      <div className="border text-center flex justify-center align-items-center">
-        <TechStackColumn
-          icons={[faHtml5, faCss3Alt, faJs]}
-          text="HTML | CSS | Javascript"
-        />
-      </div>
-      <div className="border text-center flex justify-center align-items-center">
-        <TechStackColumn icons={[faPhp, faLaravel]} text="PHP | Laravel" />
-      </div>
-      <div className="border text-center flex justify-center align-items-center">
-          <TechStackColumn
-            icons={[faNodeJs, faReact, faDatabase]}
-            text="MERN Stack"
-          />
-      </div>
-      <div className="border text-center flex justify-center align-items-center">
-        <TechStackColumn icons={[faPython]} text="Python | Django" />
-      </div>
-      <div className="border text-center flex justify-center align-items-center">
-        <TechStackColumn
-          icons={[faGit, faGithub, faLinux]}
-          text="Git | Github | Lunix"
-        />
-      </div>
-      <div className="border"></div>
-      <div className="grid grid-rows-1 md:grid-rows-12 md:col-start-9 md:col-span-3 overflow-hidden">
-        <div className="border"></div>
-        <div className="border p-3 overflow-y-auto bg-white md:row-span-10">
-          <p>
-            Web Services: AWS, Azure, Heroku, Git and Version Control. Linux OS, MacOs: Terminal,
-          </p>
-          <p>
-            A professional Full Stack Developer & and an expert Designer well experienced in Laravel PHP and livewire, MERN, and
-            Python Stack - Django, Node JS, React JS, MongoDB, RDBMS, API
-            Development along with HTML5, CSS3, and JavaScript.
-          </p>
-          <p>
-            Proficient in Adobe suite products Photoshop, Illustrator, and InDesign. 
-          </p>
-          <p>
-            Can prepare high-quality web & app design, and prototyping using Figma and XD. 
-          </p>
-          <p>
-            Familiar with: HTML & CSS, Styles: Bootstrap, Tailwind Javascript: Ecma script, Alpine js MERN Stack: MongoDB, React JS, Node JS, Express JS, Python: Django, PHP: Laravel with Livewire 
-          </p>
+      <TechStackColumn
+        icons={[faFigma]}
+        text="Design | Prototyping"
+        onClick={() => setSelectedSkill("figma")}
+      />
+      <TechStackColumn
+        icons={[faHtml5, faCss3Alt, faJs]}
+        text="HTML | CSS | Javascript"
+        onClick={() => setSelectedSkill("html-css-js")}
+      />
+      <TechStackColumn
+        icons={[faPhp, faLaravel]}
+        text="PHP | Laravel"
+        onClick={() => setSelectedSkill("php-laravel")}
+      />
+      <TechStackColumn
+        icons={[faNodeJs, faReact, faDatabase]}
+        text="MERN Stack"
+        onClick={() => setSelectedSkill("mern")}
+      />
+      <TechStackColumn
+        icons={[faPython]}
+        text="Python | Django"
+        onClick={() => setSelectedSkill("python-django")}
+      />
+      <TechStackColumn
+        icons={[faGit, faGithub, faLinux]}
+        text="Git | Github | Lunix"
+        onClick={() => setSelectedSkill("git-github-linux")}
+      />
+      <div className="grid grid-rows-1 md:grid-rows-12 md:col-start-8 md:col-span-3 overflow-hidden">
+        <div className="border p-3 overflow-y-auto bg-white md:row-start-2 md:row-span-10">
+          {content.paragraphs.map((paragraph) => {
+            return <p className="m-2">{paragraph}</p>;
+          })}
         </div>
-        <div className="border"></div>
       </div>
-      <div className="border"></div>
     </div>
   );
 }

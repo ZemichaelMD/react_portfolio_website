@@ -88,7 +88,7 @@ const certificationTimelineItem = (certification, index) => {
       style={{ color: "rgb(187 247 208)" }}
       dateInnerStyle={{ background: "#fff", color: "#333" }}
     >
-      <div className="border p-2">
+      <div className="border border-purple-400 p-2">
         <h3 className="text-xl font-mono tracking-widest mb-4">
           {certification.organization}
         </h3>
@@ -127,7 +127,7 @@ const educationTimelineItem = (education, index) => {
       style={{ color: "rgb(187 247 208)" }}
       dateInnerStyle={{ background: "#fff", color: "#333" }}
     >
-      <div className="border p-2">
+      <div className="border border-yellow-600 p-2">
         <h3 className="text-xl font-mono tracking-widest mb-4">
           {education.university}
         </h3>
