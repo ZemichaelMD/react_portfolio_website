@@ -32,7 +32,7 @@ const bio = [
     type: "job",
     company: "Alephtav Consultancy and Trading PlC",
     role: "Software Developer and Designer",
-    country: "Ethiopia",
+    country: "🇪🇹 Ethiopia",
     remote: false,
     startDate: "Jul 2021",
     endDate: "May 2022",
@@ -49,7 +49,7 @@ const bio = [
     type: "job",
     company: "BRIM DESIGN",
     role: "Interior Designer",
-    country: "Ethiopia",
+    country: "🇪🇹 Ethiopia",
     remote: false,
     startDate: "Jan 2021",
     endDate: "Jul 2021",
@@ -65,7 +65,7 @@ const bio = [
     type: "job",
     company: "Tana Entertainment P.L.C",
     role: "Designer, UI Developer",
-    country: "Ethiopia",
+    country: "🇪🇹 Ethiopia",
     remote: false,
     startDate: "Dec 2020",
     endDate: "Feb 2021",
@@ -81,7 +81,7 @@ const bio = [
     type: "job",
     company: "Tekeba and Friends Asset Valuation and Property Managment",
     role: "Property Surveyor, Logistics Assistance",
-    country: "Ethiopia",
+    country: "🇪🇹 Ethiopia",
     remote: false,
     startDate: "May 2018",
     endDate: "Aug 2018",
@@ -104,7 +104,7 @@ const bio = [
     type: "job",
     company: "PCODE Private Limited Company",
     role: "Graphics Designer",
-    country: "Ethiopia",
+    country: "🇪🇹 Ethiopia",
     remote: false,
     startDate: "Apr 2016",
     endDate: "Dec 2016",
@@ -129,7 +129,7 @@ const bio = [
     type: "job",
     company: "M.E Consulting Architects and Engineers",
     role: "Architecture Intern",
-    country: "Ethiopia",
+    country: "🇪🇹 Ethiopia",
     remote: false,
     startDate: "Jun 2016",
     endDate: "Sep 2016",
@@ -146,7 +146,7 @@ const bio = [
     type: "volunteer",
     company: "World Vision",
     role: "Volunteer",
-    country: "Ethiopia",
+    country: "🇪🇹 Ethiopia",
     remote: false,
     startDate: "Jun 2016",
     endDate: null,
@@ -163,7 +163,7 @@ const bio = [
     type: "volunteer",
     company: "Rotaract Ethiopia",
     role: "Member",
-    country: "Ethiopia",
+    country: "🇪🇹 Ethiopia",
     remote: false,
     startDate: "Sep 2020",
     endDate: null,
@@ -177,6 +177,7 @@ const bio = [
     title: "Version Control",
     startDate: "Mar 2023",
     credentialID: "WGC3XRPHK8XS",
+    link: "https://www.coursera.org/account/accomplishments/verify/WGC3XRPHK8XS",
     skills: ["Git", "GitHub", "Version Control"],
   },
   {
@@ -185,6 +186,7 @@ const bio = [
     title: "Programming with JavaScript",
     startDate: "Jan 2023",
     credentialID: "d918ddbbef42a09795f44b6326462073",
+    link: "https://www.coursera.org/account/accomplishments/verify/SCBKNCSDGVH7",
     skills: ["OOP", "JavaScript"],
   },
   {
@@ -193,6 +195,7 @@ const bio = [
     title: "HTML, CSS, and Javascript for Web Developers",
     startDate: "Dec 2022",
     credentialID: "DKKAPB4LQ4DZ",
+    link : "https://www.coursera.org/account/accomplishments/verify/DKKAPB4LQ4DZ",
     skills: [],
   },
   {
@@ -201,6 +204,7 @@ const bio = [
     title: "Introduction to Front-End Development",
     startDate: "Nov 2022",
     credentialID: "MXXYFML3FZ5B",
+    link: "https://www.coursera.org/account/accomplishments/verify/MXXYFML3FZ5B",
     skills: [],
   },
   {
@@ -208,6 +212,7 @@ const bio = [
     organization: "freeCodeCamp",
     title: "Responsive Web Design",
     startDate: "Feb 2022",
+    link : "https://freecodecamp.org/certification/zemichaelmd/responsive-web-design",
     skills: [],
   },
   {
@@ -216,6 +221,7 @@ const bio = [
     title: "HTML, JavaScript, & Bootstrap - Certification Course",
     startDate: "Oct 2021",
     credentialID: "UC-8b402382-3f0d-4ad0-8502-423bfe8ef1e7",
+    link: "https://www.udemy.com/certificate/UC-8b402382-3f0d-4ad0-8502-423bfe8ef1e7/",
     skills: ["JavaScript", "Cascading Style Sheets (CSS)", "jQuery", "HTML"],
   },
   {
@@ -252,7 +258,7 @@ export default function Bio() {
 
   return (
     <div className="w-100 h-full overflow-y-scroll text-xs md:text-base">
-      <div class="z-100 w-full bg-white m-0 p-0 md:p-3 fixed flex justify-center align-items-center">
+      <div className="z-100 w-full bg-white m-0 p-0 md:p-3 fixed flex justify-center align-items-center">
         <button className="cursor-pointer m-2" onClick={() => showOnly("all")}>
           <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
           <span

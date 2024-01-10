@@ -17,7 +17,6 @@ const calculateDuration = (startDate, endDate = null) => {
   let days = Math.ceil(diff / (1000 * 60 * 60 * 24));
   let months = Math.floor(days / 30);
   let years = Math.floor(months / 12);
-  console.log(days, months, years, endDate);
   if (years > 0) {
     months = months % 12;
     return years + " years and " + months + " months";
@@ -42,14 +41,17 @@ const jobsTimelineItem = (job, index) => {
       style={{ color: "rgb(187 247 208)" }}
       dateInnerStyle={{ background: "#fff", color: "#333" }}
     >
-      <div className={`border-2 rounded ${job.role == 'Volunteer' || job.role == 'Member' ? 'border-blue-400' : 'border-green-400'}  p-2`}>
+      <div className={`border-2 rounded ${job.role == 'Volunteer' || job.role == 'Member' ? 'border-blue-400' : 'border-green-400 bg-green-100'}  p-2`}>
         <h3 className="text-xl font-mono tracking-widest mb-4">
           {job.company}
         </h3>
         <h4 className="text-2lg font-mono tracking-widest mb-4">
-          {job.role} · {job.country} ·
+          <strong>{job.role}</strong>· {job.country} ·
           {job.remote
-            ? <FontAwesomeIcon icon={faHouseLaptop} /> + " Remote"
+            ? <FontAwesomeIcon icon={faHouseLaptop} />
+            : ""}
+          {job.remote
+            ? " Remote "
             : ""}
         </h4>
         <h4 className="font-mono tracking-widest mb-4">
@@ -62,8 +64,8 @@ const jobsTimelineItem = (job, index) => {
           <FontAwesomeIcon icon={faListCheck} /> Responsibilities:
         </h4>
         <hr className="mb-4" />
-        {job.responsibilities.map((responsibility) => {
-          return <p>· {responsibility}</p>;
+        {job.responsibilities.map((responsibility, index) => {
+          return <p key={index}>· {responsibility}</p>;
         })}
         <hr className="mb-4" />
         <h4 className="font-mono tracking-widest mb-4">
@@ -88,9 +90,10 @@ const certificationTimelineItem = (certification, index) => {
       style={{ color: "rgb(187 247 208)" }}
       dateInnerStyle={{ background: "#fff", color: "#333" }}
     >
+      <div className="p-1 w-100 border border-purple-400">Certification</div>
       <div className="border border-purple-400 p-2">
         <h3 className="text-xl font-mono tracking-widest mb-4">
-          {certification.organization}
+          From : {certification.organization}
         </h3>
         <h4 className="text-2lg font-mono tracking-widest mb-4">
           {certification.title}
@@ -98,6 +101,7 @@ const certificationTimelineItem = (certification, index) => {
         <h4 className="font-mono tracking-widest mb-4">
           <FontAwesomeIcon icon={faCalendarDays} /> {certification.startDate}
         </h4>
+        <a className="p-1 w-100 border bg-green-400" href={certification.link} target="_blank">View Certificate</a>
         <hr className="mb-4" />
         {certification.skills && certification.skills.length > 0 && (
           <>
@@ -146,8 +150,8 @@ const educationTimelineItem = (education, index) => {
               <FontAwesomeIcon icon={faListCheck} /> Activities and Societies:
             </h4>
             <hr className="mb-4" />
-            {education.activitiesAndSocieties.map((activity) => {
-              return <p>· {activity}</p>;
+            {education.activitiesAndSocieties.map((activity, index) => {
+              return <p key={index}>· {activity}</p>;
             })}
           </>
         )}
