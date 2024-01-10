@@ -1,5 +1,3 @@
-import TechStackColumn from "./techStackColumn";
-
 import {
   faFigma,
   faHtml5,
@@ -17,7 +15,22 @@ import {
 
 import { faDatabase } from "@fortawesome/free-solid-svg-icons";
 
-export default function TechStackContainer() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+const TechStackColumn = ({icons, text, ...props}) => {
+  return (
+    <div className="group flex flex-col items-center w-full justify-center hover:bg-green-200" {...props}>
+      {icons.map(icon => (
+        <FontAwesomeIcon icon={icon} size="3x" />
+      ))}
+      <p className="text-center text-sm text-green-800 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        {text}
+      </p>
+    </div>
+  )
+}
+
+export default function Skills() {
 
   return (
     <div

@@ -1,14 +1,33 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TechStackColumn from "./techStackColumn";
 
 import {
   faTwitter,
   faGithub,
   faLinux,
+  faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
 
+import { faPhone, faMailBulk } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
-export default function Education() {
+const SocialLinks = ({icons, text, ...props}) => {
+  return (
+    <div className="group flex flex-col items-center w-full justify-center hover:bg-green-200" {...props}>
+      {icons.map(icon => (
+        <FontAwesomeIcon icon={icon} size="3x" />
+      ))}
+      <p className="text-center text-sm text-green-800 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        {text}
+      </p>
+    </div>
+  )
+}
+
+export default function About() {
+  const [address, setAddress] = useState("");
+  
+  console.log(address);
+  
   return (
     <div
       id="tech-stack-container"
@@ -17,7 +36,7 @@ export default function Education() {
       <div className="border"></div>
       <div class="grid grid-row-1 md:grid-row-4 border md:col-span-6 h-100">
         <div className="m-8">
-          <h1 class="text-6xl font-semibold mb-4">Education,</h1>
+          <h1 class="text-6xl font-semibold mb-4">I'm Zemichael Mehretu,</h1>
           <h1 class="text-4xl font-mono tracking-widest mb-4">
             Software Developer
           </h1>
@@ -31,27 +50,34 @@ export default function Education() {
             </p>
           </div>
         </div>
-        <div className="border"></div>
-        <div className="border"></div>
-        <div className="border"></div>
 
-        <div className="border grid grid-cols-1 md:grid-cols-8">
-          <div className="border"></div>
-          <div className="border"></div>
-          <div className="border">
-            <TechStackColumn icons={[faTwitter]} text="Twitter" />
-          </div>
-          <div className="border">
-            <TechStackColumn icons={[faGithub]} text="Twitter" />
-          </div>
-          <div className="border">
-            <TechStackColumn icons={[faLinux]} text="Twitter" />
-          </div>
-          <div className="border"></div>
-          <div className="border"></div>
-          <div className="border"></div>
-          <div className="border"></div>
-          <div className="border"></div>
+        <div className="flex justify-center">
+            <p className='self-end text-sm text-green-800'> -- {address} --</p>
+        </div>
+
+        <div className="border flex align-items-center justify-center">
+ 
+            <SocialLinks icons={[faPhone]} text="" 
+              onMouseEnter={() => setAddress('+251927646246')}
+              onMouseLeave={() => setAddress('Click to follow my socials')}
+            />
+            <SocialLinks icons={[faMailBulk]} text="" 
+              onMouseEnter={() => setAddress('zemichaelmd@gmail.com')}
+              onMouseLeave={() => setAddress('Click to follow my socials')}
+            />
+            <SocialLinks icons={[faGithub]} text="" 
+              onMouseEnter={() => setAddress('github.com/zemichaelmd')}
+              onMouseLeave={() => setAddress('Click to follow my socials')}
+            />
+            <SocialLinks icons={[faLinkedin]} text="" 
+              onMouseEnter={() => setAddress('zemlinkedin/in/zemichaelmdichaelmd')}
+              onMouseLeave={() => setAddress('Click to follow my socials')}
+            />
+            <SocialLinks icons={[faTwitter]} text="" 
+              onMouseEnter={() => setAddress('@zemichaelmd')}
+              onMouseLeave={() => setAddress('Click to follow my socials')}
+            />
+
         </div>
       </div>
       <div className="border"></div>

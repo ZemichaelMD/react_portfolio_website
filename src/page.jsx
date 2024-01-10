@@ -6,31 +6,27 @@ import {
   faGraduationCap,
   faBriefcase,
 } from "@fortawesome/free-solid-svg-icons";
-import TechStackContainer from "./components/techStackContainer";
-import AboutMe from "./components/aboutMeContainer";
-import Experience from "./components/experience";
-import Education from "./components/education";
+import Skills from "./components/skills";
+import About from "./components/about";
+import Bio from "./components/bio";
 
 const Page = () => {
   const [contentName, setContentName] = useState("about me");
-  const [content, setContent] = useState(<AboutMe />);
+  const [content, setContent] = useState(<About />);
 
   const switchComponent = (contentName) => {
     switch (contentName) {
       case "about me":
-        return <AboutMe />;
-
-      case "experience":
-        return <Experience />;
-
-      case "education":
-        return <Education />;
+        return <About />;
+        
+      case "bio":
+        return <Bio />;
 
       case "skills":
-        return <TechStackContainer />;
+        return <Skills />;
 
       default:
-        return <AboutMe />;
+        return <About />;
     }
   }
 
@@ -60,10 +56,10 @@ const Page = () => {
               Who I am
             </span>
           </button>
-          |
+          · 
           <button
             className="cursor-pointer"
-            onClick={() => setContentName("experience")}
+            onClick={() => setContentName("bio")}
           >
             <FontAwesomeIcon
               icon={faBuilding}
@@ -71,34 +67,15 @@ const Page = () => {
             />
             <span
               className={`${
-                contentName === "experience"
+                contentName === "bio"
                   ? "text-3xl font-bold"
                   : "text-slate-400"
               } font-mono tracking-widest mb-4 hover:text-green-500`}
             >
-              What I did
+              My Bio
             </span>
           </button>
-          |
-          <button
-            className="cursor-pointer"
-            onClick={() => setContentName("education")}
-          >
-            <FontAwesomeIcon
-              icon={faGraduationCap}
-              className="mr-3 text-slate-300"
-            />
-            <span
-              className={`${
-                contentName === "education"
-                  ? "text-3xl font-bold"
-                  : "text-slate-400"
-              } font-mono tracking-widest mb-4 hover:text-green-500`}
-            >
-              What I learned
-            </span>
-          </button>
-          |
+          · 
           <button
             className="cursor-pointer"
             onClick={() => setContentName("skills")}
