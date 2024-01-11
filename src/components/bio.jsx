@@ -3,6 +3,22 @@ import JobsTimeline from "./jobsTimeline";
 import { faFilter, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
+import html_css_javascript from "../assets/certificates/html_css_javascript.jpeg";
+import html_javascript_bootstrap from "../assets/certificates/html_javascript_bootstrap.jpg";
+import introduction_to_front_end_development from "../assets/certificates/introduction_to_front_end_development.jpeg";
+import programming_with_javascript from "../assets/certificates/programming_with_javascript.jpeg";
+import responsive_web_design from "../assets/certificates/responsive_web_design.png";
+import version_control from "../assets/certificates/version_control.jpeg";
+
+import addweb_solution from "../assets/addweb_solution.jpeg";
+import alephtav from "../assets/alephtav.jpeg";
+
+import world_vision from "../assets/world_vision.jpg";
+import rotaract from "../assets/rotaract.png";
+
+import bahir_dar_university from "../assets/bahir_dar_university.jpeg";
+import addis_ababa_university from "../assets/addis_ababa_university.jpeg";
+
 const bio = [
   {
     type: "job",
@@ -27,6 +43,7 @@ const bio = [
       "MERN Stack Development",
       "React.js",
     ],
+    image: addweb_solution,
   },
   {
     type: "job",
@@ -44,6 +61,7 @@ const bio = [
       "Interior Design and Vis (Sketchup and Vray)",
     ],
     skills: ["Web Development", "React.js", "Team Leadership"],
+    image: alephtav,
   },
   {
     type: "job",
@@ -158,6 +176,7 @@ const bio = [
       "Trainer in Dona Berber school along with other Volunteers",
     ],
     skills: ["Youth Empowerment", "Child Protection", "Child Welfare"],
+    image: world_vision,
   },
   {
     type: "volunteer",
@@ -170,6 +189,7 @@ const bio = [
     duration: "3 yrs 5 mos",
     responsibilities: ["A proud inducted member of Rotaract Club of Bahir Dar"],
     skills: ["Community Service", "Youth Empowerment", "Leadership"],
+    image: rotaract,
   },
   {
     type: "certification",
@@ -178,6 +198,7 @@ const bio = [
     startDate: "Mar 2023",
     credentialID: "WGC3XRPHK8XS",
     link: "https://www.coursera.org/account/accomplishments/verify/WGC3XRPHK8XS",
+    image: version_control,
     skills: ["Git", "GitHub", "Version Control"],
   },
   {
@@ -187,6 +208,7 @@ const bio = [
     startDate: "Jan 2023",
     credentialID: "d918ddbbef42a09795f44b6326462073",
     link: "https://www.coursera.org/account/accomplishments/verify/SCBKNCSDGVH7",
+    image: programming_with_javascript,
     skills: ["OOP", "JavaScript"],
   },
   {
@@ -196,6 +218,7 @@ const bio = [
     startDate: "Dec 2022",
     credentialID: "DKKAPB4LQ4DZ",
     link : "https://www.coursera.org/account/accomplishments/verify/DKKAPB4LQ4DZ",
+    image: html_css_javascript,
     skills: [],
   },
   {
@@ -205,6 +228,7 @@ const bio = [
     startDate: "Nov 2022",
     credentialID: "MXXYFML3FZ5B",
     link: "https://www.coursera.org/account/accomplishments/verify/MXXYFML3FZ5B",
+    image: introduction_to_front_end_development,
     skills: [],
   },
   {
@@ -213,6 +237,7 @@ const bio = [
     title: "Responsive Web Design",
     startDate: "Feb 2022",
     link : "https://freecodecamp.org/certification/zemichaelmd/responsive-web-design",
+    image: responsive_web_design,
     skills: [],
   },
   {
@@ -222,6 +247,7 @@ const bio = [
     startDate: "Oct 2021",
     credentialID: "UC-8b402382-3f0d-4ad0-8502-423bfe8ef1e7",
     link: "https://www.udemy.com/certificate/UC-8b402382-3f0d-4ad0-8502-423bfe8ef1e7/",
+    image: html_javascript_bootstrap,
     skills: ["JavaScript", "Cascading Style Sheets (CSS)", "jQuery", "HTML"],
   },
   {
@@ -240,6 +266,7 @@ const bio = [
       "Graphics, publishing and presentation design",
     ],
     description: "A BSC program majoring in Architecture.",
+    image: bahir_dar_university,
   },
   {
     type: "education",
@@ -253,6 +280,7 @@ const bio = [
       "Information Management",
     ],
     description: "An MSc program majoring in Information Science and Systems.",
+    image: addis_ababa_university,
   },
 ];
 

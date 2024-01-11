@@ -41,7 +41,9 @@ const jobsTimelineItem = (job, index) => {
       style={{ color: "rgb(187 247 208)" }}
       dateInnerStyle={{ background: "#fff", color: "#333" }}
     >
-      <div className={`border-2 rounded ${job.role == 'Volunteer' || job.role == 'Member' ? 'border-blue-400' : 'border-green-400 bg-green-100'}  p-2`}>
+      {job.role == 'Volunteer' || job.role == 'Member' ? <div className="mb-1 p-1 w-100 border rounded-t border-blue-400 bg-blue-100 ">Volunteer Work</div> : <div className="mb-1 p-1 w-100 border rounded-t border-green-400 bg-green-100 ">Job Experience</div>}
+
+      <div className={`border ${job.role == 'Volunteer' || job.role == 'Member' ? 'border-blue-400' : 'border-green-400 '}  p-2`}>
         <h3 className="text-xl font-mono tracking-widest mb-4">
           {job.company}
         </h3>
@@ -77,6 +79,8 @@ const jobsTimelineItem = (job, index) => {
             return " · " + skill;
           })}
         </p>
+        <hr className="mb-4" />
+        { job.image ? <img src={job.image} alt={job.company} /> :"" }
       </div>
     </TimelineItem>
   );
@@ -90,7 +94,7 @@ const certificationTimelineItem = (certification, index) => {
       style={{ color: "rgb(187 247 208)" }}
       dateInnerStyle={{ background: "#fff", color: "#333" }}
     >
-      <div className="p-1 w-100 border border-purple-400">Certification</div>
+      <div className="mb-1 p-1 w-100 border rounded-t border-purple-400 bg-purple-100 ">Certification</div>
       <div className="border border-purple-400 p-2">
         <h3 className="text-xl font-mono tracking-widest mb-4">
           From : {certification.organization}
@@ -116,6 +120,8 @@ const certificationTimelineItem = (certification, index) => {
             </p>
           </>
         )}
+        <hr className="mb-4" />
+        <img src={certification.image} alt={certification.title} />
       </div>
     </TimelineItem>
   );
@@ -131,6 +137,8 @@ const educationTimelineItem = (education, index) => {
       style={{ color: "rgb(187 247 208)" }}
       dateInnerStyle={{ background: "#fff", color: "#333" }}
     >
+      <div className="mb-1 p-1 w-100 border rounded-t border-yellow-600 bg-yellow-100 ">Education</div>
+
       <div className="border border-yellow-600 p-2">
         <h3 className="text-xl font-mono tracking-widest mb-4">
           {education.university}
@@ -161,6 +169,8 @@ const educationTimelineItem = (education, index) => {
         </h4>
         <hr className="mb-4" />
         <p>{education.description}</p>
+        <hr className="mb-4" />
+        { education.image ? <img src={education.image} alt={education.university} /> :"" }
       </div>
     </TimelineItem>
   );
