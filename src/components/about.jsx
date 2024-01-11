@@ -9,6 +9,8 @@ import {
 import { faPhone, faMailBulk } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
+import zemichael from "../assets/zemichael.jpeg";
+
 const SocialLinks = ({icons, text, link, ...props}) => {
   return (
     <a className="group flex flex-col items-center w-full justify-center hover:bg-green-200" {...props} href={link} target="_blank">
@@ -97,11 +99,9 @@ export default function About() {
           fetchpriority="high"
           decoding="async"
           width="6400"
-          src="https://websitedemos.net/interior-designer-02/wp-content/uploads/sites/275/2020/06/man-in-black-suit-jacket.jpg"
+          src={zemichael}
           className="w-full h-full overflow-hidden object-cover border p-0 overflow-hidden bg-white md:row-start-2 md:row-span-10"
           alt=""
-          srcSet="https://websitedemos.net/interior-designer-02/wp-content/uploads/sites/275/2020/06/man-in-black-suit-jacket.jpg 640w, https://websitedemos.net/interior-designer-02/wp-content/uploads/sites/275/2020/06/man-in-black-suit-jacket-200x300.jpg 200w, https://websitedemos.net/interior-designer-02/wp-content/uploads/sites/275/2020/06/man-in-black-suit-jacket-400x600.jpg 400w"
-          sizes="(max-width: 640px) 100vw, 640px"
         />
       </div>
     </div>

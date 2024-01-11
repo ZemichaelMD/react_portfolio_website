@@ -167,7 +167,7 @@ export default function Skills() {
         })
       }
       <div className="grid grid-rows-1 md:grid-rows-12 md:col-start-8 md:col-span-3 overflow-hidden">
-        <div className="border p-3 overflow-y-auto bg-white md:row-start-2 md:row-span-10">
+        <div className="border p-3 overflow-y-auto bg-white md:row-start-2 md:row-span-10 min-h-40">
           {content.paragraphs.map((paragraph, index) => {
             return (
               <p key={index} className="m-2">
