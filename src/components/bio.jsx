@@ -241,6 +241,19 @@ const bio = [
     ],
     description: "A BSC program majoring in Architecture.",
   },
+  {
+    type: "education",
+    school: "Addis Ababa University",
+    degree: "MSc in Information Science and Systems",
+    startDate: "Oct 2023",
+    duration: "2 yrs 5 mos",
+    activitiesAndSocieties: [
+      "Information Systems",
+      "Information Science",
+      "Information Management",
+    ],
+    description: "An MSc program majoring in Information Science and Systems.",
+  },
 ];
 
 const filterBio = (bio, type) => {
