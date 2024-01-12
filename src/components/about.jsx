@@ -60,7 +60,7 @@ export default function About() {
   return (
     <div
       id="tech-stack-container"
-      className="grid grid-cols-1 md:grid-cols-10 h-full overflow-hidden"
+      className="grid grid-cols-1 md:grid-cols-10 h-full overflow-y-auto"
     >
       <div className="grid grid-row-1 md:grid-row-4 border md:col-start-2 md:col-span-5 h-100">
         <div className="m-8">
