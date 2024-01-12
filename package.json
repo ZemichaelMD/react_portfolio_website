@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "concurrently \"npx tailwindcss -i ./tailwind.input.css -o ./index.css --watch\" \"vite\"",
+    "build": "npx tailwindcss -i ./tailwind.input.css -o ./index.css && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^8.2.2",
     "parcel": "^2.0.0-nightly.1480",
     "tailwindcss": "^3.4.1",
     "vite": "^5.0.8"
