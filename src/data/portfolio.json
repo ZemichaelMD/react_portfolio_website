@@ -1,0 +1,144 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "title": "Ticktalk",
+      "with": "Addweb Solutions",
+      "NDA": true,
+      "description": "In-house ERP for addweb solutions",
+      "technologies": ["Laravel", "PHP", "MySQL", "JavaScript"],
+      "role": "Full Stack Laravel Developer",
+      "responsibilities": "Adding features and maintaining the application",
+      "url": "https://ticktalk2.0.addwebsolution.in",
+      "type": "web",
+      "category": "ERP"
+    },
+    {
+      "id": "2",
+      "title": "Node Compass",
+      "with": "Addweb Solutions",
+      "NDA": true,
+      "description": "A localization process that uses AWS services to localize audio video",
+      "technologies": ["Node.js", "Python", "AWS Lambda", "AWS Services"],
+      "role": "Backend Developer",
+      "responsibilities": "Adding features and maintaining the lambdas and AWS services",
+      "url": null,
+      "type": "backend",
+      "category": "Localization"
+    },
+    {
+      "id": "3",
+      "title": "Voxabot",
+      "with": "Addweb Solutions",
+      "NDA": true,
+      "description": "A Text to speech platform that uses Google TTS, Azure TTS and AWS Polly",
+      "technologies": [
+        "Laravel",
+        "PHP",
+        "Google TTS",
+        "Azure TTS",
+        "AWS Polly"
+      ],
+      "role": "Full Stack Laravel Developer",
+      "responsibilities": "Develop, add features and maintaining the application",
+      "url": "https://voxabot.com",
+      "type": "web",
+      "category": "AI/TTS"
+    },
+    {
+      "id": "4",
+      "title": "Beyondxr",
+      "with": "Addweb Solutions",
+      "NDA": true,
+      "description": "An ecommerce platform with 3D spaces and interactivity",
+      "technologies": ["React", "JavaScript", "Three.js", "WebGL"],
+      "role": "Frontend Developer",
+      "responsibilities": "Build interactivity in 3D space, add features and maintaining the application",
+      "url": "https://www.byondxr.com",
+      "type": "web",
+      "category": "E-commerce/3D"
+    },
+    {
+      "id": "5",
+      "title": "GTP",
+      "with": "Addweb Solutions",
+      "NDA": true,
+      "description": "A test preparation platform for students and parents",
+      "technologies": ["Laravel", "PHP", "MySQL", "JavaScript"],
+      "role": "Full Stack Laravel Developer",
+      "responsibilities": "Build, add features and maintaining the application",
+      "url": "https://georgiatestprep.com",
+      "type": "web",
+      "category": "Education"
+    },
+    {
+      "id": "6",
+      "title": "Dare21",
+      "with": "Addweb Solutions",
+      "NDA": true,
+      "description": "An event ticketing platform",
+      "technologies": ["Laravel", "PHP", "MySQL", "JavaScript"],
+      "role": "Full Stack Developer",
+      "responsibilities": "Full stack development",
+      "url": null,
+      "type": "web",
+      "category": "Events"
+    },
+    {
+      "id": "7",
+      "title": "Pilotcity",
+      "with": "Addweb Solutions",
+      "NDA": true,
+      "description": "An internship management application",
+      "technologies": ["Vue.js", "Node.js", "JavaScript"],
+      "role": "Backend Node.js Developer",
+      "responsibilities": "Backend development",
+      "url": "https://pilotcity.com",
+      "type": "web",
+      "category": "Management"
+    },
+    {
+      "id": "8",
+      "title": "Crikstar",
+      "with": "Addweb Solutions",
+      "NDA": true,
+      "description": "A cricket tournament, team and even management system with score board, marketplace, and chat application",
+      "technologies": [
+        "nest.js",
+        "Node.js",
+        "typescript",
+        "react",
+        "tailwindcss",
+        "mongodb",
+        "redis",
+        "rabbitmq",
+        "docker",
+        "kubernetes"
+      ],
+      "role": "Frontend Developer",
+      "responsibilities": "Frontend development",
+      "url": "https://crikstar.com",
+      "type": "web",
+      "category": "Management"
+    },
+    {
+      "id": "9",
+      "title": "Menesha E-Learning",
+      "with": "",
+      "NDA": true,
+      "description": "An e-learning platform for Menesha",
+      "technologies": [
+        "Next.js",
+        "TailwindCSS",
+        "TypeScript",
+        "Neon",
+        "Vercel"
+      ],
+      "role": "Full Stack Developer",
+      "responsibilities": "Full stack development",
+      "url": "https://www.menasha.com",
+      "type": "web",
+      "category": "E-Learning"
+    }
+  ]
+}

@@ -297,71 +297,45 @@ export default function Bio() {
     setBioItems(filterBio(bio, type));
   };
 
+  const getActiveFilter = () => {
+    if (bioItems.length === bio.length) return "all";
+    if (bioItems.every(item => item.type === "job")) return "job";
+    if (bioItems.every(item => item.type === "education")) return "education";
+    if (bioItems.every(item => item.type === "certification")) return "certification";
+    if (bioItems.every(item => item.type === "volunteer")) return "volunteer";
+    return "all";
+  };
+
+  const filters = [
+    { key: "all", label: "All", count: bio.length },
+    { key: "job", label: "Experience", count: bio.filter(item => item.type === "job").length },
+    { key: "education", label: "Education", count: bio.filter(item => item.type === "education").length },
+    { key: "certification", label: "Certificates", count: bio.filter(item => item.type === "certification").length },
+    { key: "volunteer", label: "Volunteer", count: bio.filter(item => item.type === "volunteer").length }
+  ];
+
   return (
-    <div className="w-100 h-full overflow-y-scroll text-xs md:text-base">
-      <div className="z-100 w-full bg-white m-0 p-0 md:p-3 fixed flex justify-center align-items-center">
-        <button className="cursor-pointer m-2" onClick={() => showOnly("all")}>
-          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
-          <span
-            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
-          >
-            All
-          </span>
-        </button>
-
-        <button className="cursor-pointer m-2" onClick={() => showOnly("job")}>
-          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
-          <span
-            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
-          >
-            Jobs
-          </span>
-        </button>
-
-        <button
-          className="cursor-pointer m-2"
-          onClick={() => showOnly("education")}
-        >
-          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
-          <span
-            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
-          >
-            School
-          </span>
-        </button>
-
-        <button
-          className="cursor-pointer m-2"
-          onClick={() => showOnly("certification")}
-        >
-          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
-          <span
-            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
-          >
-            Certificate
-          </span>
-        </button>
-
-        <button
-          className="cursor-pointer m-2"
-          onClick={() => showOnly("volunteer")}
-        >
-          <FontAwesomeIcon icon={faFilter} className="mr-3 text-slate-300" />
-          <span
-            className={`font-mono tracking-widest mb-4 hover:text-green-500`}
-          >
-            Volunteer
-          </span>
-        </button>
-
-      </div>
-      <div
-        id="tech-stack-container"
-        className="mt-8 grid grid-cols-1 md:grid-cols-12 "
-      >
-        <div className="border md:col-start-2 md:col-span-10">
-          <JobsTimeline bio={bioItems} />
+    <div className="bg-gray-900 rounded-xl shadow-lg overflow-hidden border border-gray-700">
+      <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 border-b border-gray-600">
+        <div className="flex flex-wrap justify-center gap-2">
+          {filters.map((filter) => (
+            <button 
+              key={filter.key}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                getActiveFilter() === filter.key
+                  ? "bg-green-500 text-white shadow-md transform scale-105" 
+                  : "bg-gray-700 text-gray-300 hover:bg-green-600 hover:text-white hover:shadow-sm"
+              }`}
+              onClick={() => showOnly(filter.key)}
+            >
+              {filter.label} ({filter.count})
+            </button>
+          ))}
         </div>
+      </div>
+      
+      <div className="p-4">
+        <JobsTimeline bio={bioItems} />
       </div>
     </div>
   );
