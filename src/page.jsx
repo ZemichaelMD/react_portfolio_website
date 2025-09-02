@@ -1,27 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faCode,
-  faBriefcase,
-  faTimeline,
-  faEnvelope,
-  faPhone,
-  faExternalLinkAlt,
-  faBars,
-  faTimes,
-  faClock,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faTwitter,
-  faGithub as faGithubBrand,
-  faLinkedin,
-} from "@fortawesome/free-brands-svg-icons";
+import { Github, Linkedin, Twitter, User, Briefcase, Clock, Mail, Phone, ExternalLink, Menu, X, Code2, PhoneIcon, Code } from "lucide-react";
 
 import Skills from "./components/skills";
 import Bio from "./components/bio";
 import portfolioData from "./data/portfolio.json";
 import zemichael from "./assets/zemichael.jpeg";
+
+// Subtle SVG dot grid background wrapper
+const DotGridBackground = ({ children }) => {
+  return (
+    <div className="relative min-h-screen bg-black text-white">
+      <svg
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <defs>
+          <pattern id="dot-grid" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.12)" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dot-grid)" />
+        <rect width="100%" height="100%" fill="url(#vignette)" />
+      </svg>
+      <div className="relative">{children}</div>
+    </div>
+  );
+};
 
 const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -39,7 +44,7 @@ const NavBar = () => {
   // Track active section on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["hero", "portfolio", "skills", "timeline", "contact"];
+      const sections = ["hero", "portfolio", "skills", "timeline", "blog", "contact"];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
@@ -82,11 +87,12 @@ const NavBar = () => {
   }, [isMobileMenuOpen]);
 
   const navItems = [
-    { id: "hero", label: "Home", icon: faUser },
-    { id: "portfolio", label: "Portfolio", icon: faBriefcase },
-    { id: "skills", label: "Skills", icon: faCode },
-    { id: "timeline", label: "Timeline", icon: faClock },
-    { id: "contact", label: "Contact", icon: faEnvelope },
+    { id: "hero", label: "Home", icon: User },
+    { id: "portfolio", label: "Portfolio", icon: Briefcase },
+    { id: "skills", label: "Skills", icon: Code2 },
+    { id: "timeline", label: "Timeline", icon: Clock },
+    { id: "blog", label: "Blog", icon: Code2 },
+    { id: "contact", label: "Contact", icon: Mail },
   ];
 
   return (
@@ -121,14 +127,9 @@ const NavBar = () => {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="bg-gray-900/90 backdrop-blur-md border border-gray-700 rounded-full p-4 shadow-2xl text-gray-300 hover:text-green-400 transition-all duration-300 hover:scale-105"
-          >
-            <FontAwesomeIcon
-              icon={isMobileMenuOpen ? faTimes : faBars}
-              size="lg"
-              className={`transition-transform duration-300 ${
-                isMobileMenuOpen ? "rotate-90" : ""
-              }`}
-            />
+            > {
+              isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />
+            }
           </button>
 
           {/* Mobile Menu Dropdown */}
@@ -142,7 +143,7 @@ const NavBar = () => {
                     className="w-full text-left px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-gray-800/50 transition-all duration-200 font-medium text-sm flex items-center space-x-3"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
-                    <FontAwesomeIcon icon={item.icon} className="w-4" />
+                    <item.icon className="w-4 h-4" />
                     <span>{item.label}</span>
                   </button>
                 ))}
@@ -231,7 +232,7 @@ const HeroSection = () => {
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
               >
-                <FontAwesomeIcon icon={faGithubBrand} size="2x" />
+                <Github className="h-6 w-6" />
               </a>
               <a
                 href="https://linkedin.com/in/zemichaelmd"
@@ -239,7 +240,7 @@ const HeroSection = () => {
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
               >
-                <FontAwesomeIcon icon={faLinkedin} size="2x" />
+                <Linkedin className="h-6 w-6" />
               </a>
               <a
                 href="https://twitter.com/zemichaelmd"
@@ -247,7 +248,7 @@ const HeroSection = () => {
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
               >
-                <FontAwesomeIcon icon={faTwitter} size="2x" />
+                <Twitter className="h-6 w-6" />
               </a>
             </div>
           </div>
@@ -261,7 +262,7 @@ const HeroSection = () => {
                 />
               </div>
               <div className="absolute -bottom-3 -right-3 bg-green-600 text-white p-3 rounded-full shadow-lg">
-                <FontAwesomeIcon icon={faCode} size="lg" />
+                <Code />
               </div>
             </div>
           </div>
@@ -358,7 +359,7 @@ const PortfolioSection = () => {
                     rel="noopener noreferrer"
                     className="text-green-400 hover:text-green-300 transition-colors ml-3 flex-shrink-0"
                   >
-                    <FontAwesomeIcon icon={faExternalLinkAlt} />
+                    <ExternalLink className="h-4 w-4" />
                   </a>
                 )}
               </div>
@@ -460,25 +461,25 @@ const TimelineSection = () => {
 const ContactSection = () => {
   const contactInfo = [
     {
-      icon: faEnvelope,
+      icon: Mail,
       label: "Email",
       value: "zemichaelmd@gmail.com",
       href: "mailto:zemichaelmd@gmail.com",
     },
     {
-      icon: faPhone,
+      icon: PhoneIcon,
       label: "Phone",
       value: "+251927646246",
       href: "tel:+251927646246",
     },
     {
-      icon: faGithubBrand,
+      icon: Github,
       label: "GitHub",
       value: "github.com/zemichaelmd",
       href: "https://github.com/zemichaelmd",
     },
     {
-      icon: faLinkedin,
+      icon: Linkedin,
       label: "LinkedIn",
       value: "linkedin.com/in/zemichaelmd",
       href: "https://linkedin.com/in/zemichaelmd",
@@ -517,7 +518,7 @@ const ContactSection = () => {
               rel="noopener noreferrer"
               className="bg-gray-800 p-6 rounded-lg text-center hover:bg-gray-700 transition-colors group"
             >
-              <FontAwesomeIcon
+              <contact.icon
                 icon={contact.icon}
                 className="text-3xl text-green-400 mb-4 group-hover:text-green-300 transition-colors"
               />
@@ -545,17 +546,46 @@ const Footer = () => {
   );
 };
 
+const BlogSection = () => {
+  return (
+    <section id="blog" className="py-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <div className="inline-block mb-4">
+            <span className="px-4 py-1.5 border border-gray-700 text-gray-300 text-sm font-medium">
+              Blog
+            </span>
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-black text-white mb-2">Writing</h2>
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Posts coming soon. I’ll share engineering notes, postmortems, and pragmatic how‑tos.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[1,2,3].map((i) => (
+            <div key={i} className="bg-gray-950 border border-gray-700 p-5 shadow-sm">
+              <div className="h-14 w-full border-b border-gray-800 mb-3"></div>
+              <p className="text-gray-400 text-sm">Draft placeholder</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Page = () => {
   return (
-    <div className="min-h-screen bg-black">
+    <DotGridBackground>
       <NavBar />
       <HeroSection />
       <PortfolioSection />
       <SkillsSection />
       <TimelineSection />
+      {/* <BlogSection /> */}
       <ContactSection />
       <Footer />
-    </div>
+    </DotGridBackground>
   );
 };
 
