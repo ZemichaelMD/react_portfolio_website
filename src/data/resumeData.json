@@ -1,0 +1,293 @@
+{
+  "profile": {
+    "fullName": "Zemichael Mehretu Dagnew",
+    "headline": "Software Engineer and Full-Stack Developer",
+    "location": "Addis Ababa, Ethiopia",
+    "phone": "+251927646246",
+    "email": "zemichaelmd@gmail.com",
+    "languages": ["Amharic", "English"],
+    "links": [
+      {
+        "label": "Website",
+        "url": "https://zemichael.dev"
+      },
+      {
+        "label": "Portfolio Source",
+        "url": "https://github.com/ZemichaelMD/react_portfolio_website"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/zemichaelmd"
+      },
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/zemichaelmd/"
+      },
+      {
+        "label": "StackOverflow",
+        "url": "https://stackoverflow.com/users/16539038/zemichaelmd"
+      }
+    ]
+  },
+  "summary": "Software engineer with 5+ years building production web applications across Laravel, React, Node.js, and cloud-integrated systems. Works across product delivery, platform integration, and maintainable architecture while bringing strong UX and design collaboration skills from an architecture background.",
+  "experienceHighlights": [
+    {
+      "label": "Software Development",
+      "value": "5+ Years"
+    },
+    {
+      "label": "UX/UI and Design",
+      "value": "4+ Years"
+    },
+    {
+      "label": "Asset Valuation",
+      "value": "4 Months"
+    }
+  ],
+  "workExperience": [
+    {
+      "company": "AddWeb Solution Private Limited",
+      "title": "Software Engineer",
+      "period": "May 2022 - Present",
+      "locationMode": "Remote",
+      "location": "India",
+      "type": "Full-time",
+      "website": "http://addwebsolution.com",
+      "stack": ["TypeScript", "React", "Next.js", "Vue", "Express.js", "Laravel", "Python", "GraphQL", "REST APIs", "Kubernetes", "RabbitMQ", "gRPC", "AWS", "Azure", "Google APIs", "CI/CD", "Bash", "SQL"],
+      "achievements": [
+        "Developed and maintained full-stack web applications for outsourcing clients.",
+        "Delivered production features across Laravel, MERN, and MEVN-based products.",
+        "Integrated cloud APIs and contributed to CI/CD pipelines and production operations."
+      ],
+      "priority": "primary"
+    },
+    {
+      "company": "AlephTav Consultancy and Trading",
+      "title": "Software Developer and Designer",
+      "period": "Jun 2020 - Aug 2021",
+      "locationMode": "On-site",
+      "location": "Addis Ababa, Ethiopia",
+      "type": "Full-time",
+      "website": "https://alephtavconsult.com/",
+      "stack": ["TypeScript", "JavaScript", "React", "Express.js", "Laravel", "Git", "cPanel", "Figma", "Adobe Suite"],
+      "achievements": [
+        "Built ERP, inventory, COVID indexing, and tender management systems.",
+        "Delivered full-stack implementation and ongoing maintenance.",
+        "Produced UX/UI design, print assets, and digital visuals for product teams."
+      ],
+      "priority": "primary"
+    },
+    {
+      "company": "Brim Designs",
+      "title": "Designer and Web Developer",
+      "period": "Dec 2019 - Jun 2020",
+      "locationMode": "On-site",
+      "location": "Addis Ababa, Ethiopia",
+      "type": "Full-time",
+      "website": "https://www.facebook.com/BrimDesgns/",
+      "stack": ["HTML", "CSS", "Bootstrap", "JavaScript", "WordPress", "Laravel", "Figma", "Adobe Suite", "Revit", "SketchUp", "Lumion", "Twinmotion"],
+      "achievements": [
+        "Built an internal task tracker and an external job-status checker web app.",
+        "Designed, developed, and maintained company web content with SEO focus.",
+        "Contributed architecture and interior visualization deliverables."
+      ],
+      "priority": "secondary"
+    },
+    {
+      "company": "Freelance",
+      "title": "Freelance Designer and Developer",
+      "period": "Sep 2018 - Dec 2020",
+      "locationMode": "Hybrid",
+      "location": "Addis Ababa, Ethiopia",
+      "type": "Part-time",
+      "website": null,
+      "stack": ["Adobe XD", "Figma", "HTML", "CSS", "Bootstrap", "JavaScript", "Django", "Illustrator", "Photoshop"],
+      "achievements": [
+        "Delivered UI/UX and front-end implementations for multiple clients.",
+        "Built Django-based web solutions for small business and freelance engagements.",
+        "Collaborated with distributed teams across Upwork and Freelancer."
+      ],
+      "priority": "secondary"
+    },
+    {
+      "company": "Tekeba and Friends Property Valuation and Management PLC",
+      "title": "Property Surveyor",
+      "period": "May 2018 - Aug 2018",
+      "locationMode": "On-site",
+      "location": "Addis Ababa, Ethiopia",
+      "type": "Full-time",
+      "website": "https://tekebandfriends.com",
+      "stack": ["MS Office", "Adobe Suite", "Survey Operations"],
+      "achievements": [
+        "Installed and maintained field surveying application workflows.",
+        "Supported data collection, calculation, documentation, and reporting operations.",
+        "Contributed to website and tablet UX improvements while coordinating logistics."
+      ],
+      "priority": "secondary"
+    },
+    {
+      "company": "Bahir Dar University",
+      "title": "Guest Lecturer",
+      "period": "Feb 2018 - May 2018",
+      "locationMode": "On-site",
+      "location": "Bahir Dar, Ethiopia",
+      "type": "Part-time",
+      "website": null,
+      "stack": ["Autodesk Revit", "Teaching", "Assessment"],
+      "achievements": [
+        "Lectured fourth-year architecture students in Graphics Communication Skills.",
+        "Focused instruction on Autodesk Revit Architecture workflows.",
+        "Handled continuous assessment and grading responsibilities."
+      ],
+      "priority": "secondary"
+    },
+    {
+      "company": "M.E Consulting Engineers and Architects",
+      "title": "Intern Architect",
+      "period": "Jun 2016 - Jan 2017",
+      "locationMode": "On-site",
+      "location": "Addis Ababa, Ethiopia",
+      "type": "Full-time",
+      "website": null,
+      "stack": ["Autodesk Revit", "AutoCAD", "Lumion", "SketchUp", "Illustrator", "Photoshop", "Drafting"],
+      "achievements": [
+        "Contributed to architectural design, drafting, and visualization tasks.",
+        "Produced interior concepts and rendering outputs.",
+        "Supported construction supervision and visual communication materials."
+      ],
+      "priority": "secondary"
+    },
+    {
+      "company": "PolyTech Consulting PLC",
+      "title": "Graphics Designer",
+      "period": "Apr 2014 - Aug 2015",
+      "locationMode": "On-site",
+      "location": "Addis Ababa, Ethiopia",
+      "type": "Part-time",
+      "website": "http://www.polytechplc.com/",
+      "stack": ["HTML", "CSS", "JavaScript", "jQuery", "Illustrator", "Photoshop", "Motion Graphics"],
+      "achievements": [
+        "Designed UI assets and coded website interface components.",
+        "Produced print and brand materials including banners, cards, and apparel visuals.",
+        "Supported quality control of design outputs from concept through production."
+      ],
+      "priority": "secondary"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Addis Ababa University",
+      "degree": "MSc in Information Science and Systems",
+      "period": "Oct 2023 - Current",
+      "status": "In Progress"
+    },
+    {
+      "institution": "Bahir Dar University",
+      "degree": "Bachelor of Architecture and Urban Planning",
+      "period": "Oct 2012 - Feb 2018",
+      "status": "Completed"
+    }
+  ],
+  "skills": {
+    "engineering": [
+      "JavaScript",
+      "TypeScript",
+      "HTML",
+      "CSS",
+      "React",
+      "Next.js",
+      "Vue",
+      "Alpine.js",
+      "Node.js",
+      "Express.js",
+      "PHP",
+      "Laravel",
+      "Python",
+      "Django",
+      "GraphQL",
+      "REST APIs",
+      "SQL",
+      "Microservices",
+      "Serverless"
+    ],
+    "platforms": [
+      "AWS",
+      "Google Cloud",
+      "Azure Integrations",
+      "Docker",
+      "Kubernetes",
+      "RabbitMQ",
+      "gRPC",
+      "Linux",
+      "Bash",
+      "Git"
+    ],
+    "designArchitecture": [
+      "Figma",
+      "Adobe XD",
+      "Adobe Illustrator",
+      "Adobe Photoshop",
+      "Adobe InDesign",
+      "AutoCAD",
+      "Autodesk Revit",
+      "ArchiCAD",
+      "SketchUp",
+      "Twinmotion",
+      "Lumion"
+    ]
+  },
+  "volunteering": [
+    {
+      "organization": "Tukuls to Dachas",
+      "role": "Researcher and Designer",
+      "period": "Jun 2016 - Aug 2016",
+      "highlights": [
+        "Collaborated with German professors and students on urban research.",
+        "Proposed infrastructure, urban, and housing development concepts."
+      ]
+    },
+    {
+      "organization": "World Vision Ethiopia",
+      "role": "Volunteer",
+      "period": "Jun 2018 - Aug 2018",
+      "highlights": [
+        "Supported youth education and anti-child-abuse outreach programs.",
+        "Participated in teaching activities for elementary students."
+      ]
+    },
+    {
+      "organization": "Children Heart Fund Ethiopia + AlephTav Consultancy",
+      "role": "Volunteer Coordinator",
+      "period": "Jan 2022",
+      "highlights": [
+        "Coordinated fundraising support activities.",
+        "Received certificate recognition for contribution."
+      ]
+    }
+  ],
+  "extracurricular": [
+    {
+      "title": "Class Representative/President",
+      "period": "First - Third Year",
+      "detail": "Represented class peers in academic coordination and communication."
+    },
+    {
+      "title": "Student Innovation and Research Competition",
+      "period": "Second - Final Year",
+      "detail": "Served as idea lead and main judge for student innovation, research, and entrepreneurship events."
+    },
+    {
+      "title": "Graduation Committee President",
+      "period": "Final Year",
+      "detail": "Organized graduation events and produced yearbooks, banners, and related print materials."
+    }
+  ],
+  "references": [
+    {
+      "name": "David G. Heron",
+      "title": "Senior Lecturer, Bahir Dar University",
+      "phone": "+251918176755",
+      "email": "gabreheron@gmail.com"
+    }
+  ]
+}

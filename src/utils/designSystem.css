@@ -1,0 +1,275 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap");
+
+:root {
+  --bg: #f7f5ef;
+  --surface: #ffffff;
+  --surface-soft: #f2efe6;
+  --ink: #1f1f1c;
+  --muted: #57574f;
+  --line: #dfd9ca;
+  --accent: #24484b;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  color: var(--ink);
+  line-height: 1.55;
+  background:
+    radial-gradient(circle at top right, rgba(36, 72, 75, 0.08), transparent 35%),
+    linear-gradient(180deg, #f9f8f4 0%, var(--bg) 65%);
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ds-shell {
+  width: min(980px, 100% - 2rem);
+  margin: 0 auto;
+  padding: 1.5rem 0 3rem;
+}
+
+.ds-main {
+  display: grid;
+  gap: 1rem;
+}
+
+.ds-hero,
+.ds-section {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.ds-hero {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.ds-portrait {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.ds-hero-content {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.ds-eyebrow {
+  font-size: 0.73rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Libre Baskerville", serif;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+}
+
+h2 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+}
+
+h3 {
+  font-size: 1.05rem;
+}
+
+.ds-subhead {
+  color: #2d2d29;
+  font-weight: 600;
+}
+
+.ds-muted {
+  color: var(--muted);
+}
+
+.ds-muted-small {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.ds-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ds-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  padding: 0.45rem 0.7rem;
+  font-size: 0.82rem;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.ds-action:hover {
+  border-color: #bdb4a0;
+  background: #fff;
+}
+
+.ds-section {
+  padding: 1rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.ds-section-head {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.ds-list-grid,
+.ds-reference-row {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.ds-item-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.8rem;
+  background: #fff;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.ds-item-link {
+  transition: border-color 140ms ease, transform 140ms ease;
+}
+
+.ds-item-link:hover {
+  border-color: #bdb4a0;
+  transform: translateY(-2px);
+}
+
+.ds-item-card-muted {
+  opacity: 0.9;
+  background: #fbfaf7;
+}
+
+.ds-list {
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.22rem;
+}
+
+.ds-list li {
+  color: #33332f;
+  font-size: 0.9rem;
+}
+
+.ds-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.ds-chip {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  font-size: 0.72rem;
+  background: var(--surface-soft);
+  color: #414139;
+}
+
+.ds-inline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.ds-inline-link:hover {
+  text-decoration: underline;
+}
+
+.ds-skill-section {
+  background: linear-gradient(180deg, #fff, #fcfaf5);
+}
+
+.ds-skill-columns {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.ds-skill-columns article {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.ds-footnote {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 760px) {
+  .ds-hero {
+    grid-template-columns: 230px 1fr;
+    align-items: start;
+  }
+
+  .ds-portrait {
+    height: 100%;
+    min-height: 250px;
+  }
+
+  .ds-list-grid,
+  .ds-reference-row,
+  .ds-skill-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 980px) {
+  .ds-list-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ds-skill-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
