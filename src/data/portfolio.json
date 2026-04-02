@@ -1,6 +1,53 @@
 {
   "projects": [
     {
+      "id": "10",
+      "title": "GitHub SSH Profile Manager",
+      "with": "Personal Project",
+      "NDA": false,
+      "description": "Desktop app for managing multiple GitHub SSH identities and switching configurations instantly.",
+      "technologies": ["Electron", "TypeScript", "TailwindCSS", "Node.js", "Git"],
+      "role": "Creator and Daily Power User",
+      "responsibilities": "Designed and built the desktop workflow for profile creation, profile switching, SSH key visibility, and GitHub account setup.",
+      "url": "https://github.com/ZemichaelMD/GitHub-SSH-Profile-Manager-GUI",
+      "liveUrl": null,
+      "type": "desktop",
+      "category": "Developer Tooling"
+    },
+    {
+      "id": "11",
+      "title": "Orthodox Bible 81 Books",
+      "with": "Personal Project",
+      "NDA": false,
+      "description": "A modern and mobile-first Ethiopian Orthodox Bible reader with 81 books, full-text search, and bilingual verse support.",
+      "technologies": ["Next.js", "TypeScript", "SQLite", "TailwindCSS", "Noto Sans Ethiopic"],
+      "role": "Full Stack Developer",
+      "responsibilities": "Built end-to-end product features including verse search APIs, responsive reading interfaces, Ethiopic typography support, and performance optimization.",
+      "url": "https://orthodox-bible-81.vercel.app/",
+      "repoUrl": "https://github.com/ZemichaelMD/orthodox_bible_81",
+      "type": "web",
+      "category": "Faith + Education"
+    },
+    {
+      "id": "9",
+      "title": "Menesha E-Learning",
+      "with": "Menesha",
+      "NDA": false,
+      "description": "An online tutorials platform connecting students and tutors through guided digital learning experiences.",
+      "technologies": [
+        "Next.js",
+        "TailwindCSS",
+        "TypeScript",
+        "Neon",
+        "Vercel"
+      ],
+      "role": "Full Stack Developer",
+      "responsibilities": "Built and shipped tutoring workflows, learning experience features, and full-stack platform integrations.",
+      "url": "https://menesha-next-app.vercel.app",
+      "type": "web",
+      "category": "E-Learning"
+    },
+    {
       "id": "1",
       "title": "Ticktalk",
       "with": "Addweb Solutions",
@@ -120,25 +167,6 @@
       "url": "https://crikstar.com",
       "type": "web",
       "category": "Management"
-    },
-    {
-      "id": "9",
-      "title": "Menesha E-Learning",
-      "with": "",
-      "NDA": true,
-      "description": "An e-learning platform for Menesha",
-      "technologies": [
-        "Next.js",
-        "TailwindCSS",
-        "TypeScript",
-        "Neon",
-        "Vercel"
-      ],
-      "role": "Full Stack Developer",
-      "responsibilities": "Full stack development",
-      "url": "https://www.menasha.com",
-      "type": "web",
-      "category": "E-Learning"
     }
   ]
 }
