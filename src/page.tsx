@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import zemichael from "./assets/zemichael.jpeg";
 import sshManagerScreenshot from "./assets/project_screenshots/github_ssh_profile_manager.png";
+import orthodoxBibleScreenshot from "./assets/project_screenshots/orthodox_bible_81.png";
 import addisAbabaUniversity from "./assets/addis_ababa_university.jpeg";
 import bahirDarUniversity from "./assets/bahir_dar_university.jpeg";
 import worldVision from "./assets/world_vision.jpg";
@@ -47,6 +48,11 @@ const projects = portfolioData.projects;
 const spotlightProjects = portfolioData.projects.slice(0, 4);
 const work = resumeData.workExperience.slice(0, 4);
 const defaultSpotlight = portfolioData.projects.find((project) => project.title === "GitHub SSH Profile Manager") ?? spotlightProjects[0];
+
+const screenshotMap: Record<string, string> = {
+  "10": sshManagerScreenshot,
+  "11": orthodoxBibleScreenshot,
+};
 
 const monthMap: Record<string, number> = {
   jan: 0,
@@ -237,6 +243,19 @@ const Page = () => {
         {/* FEATURE PROJECT */}
         <section className="cell feature interactive-feature">
           <h3>Project Spotlight</h3>
+          {activeSpotlight.screenshot && (
+            <div className="spotlight-screenshot">
+              <img
+                src={screenshotMap[activeSpotlight.id]}
+                alt={`${activeSpotlight.title} screenshot`}
+                style={
+                  activeSpotlight.screenshotDimensions
+                    ? { aspectRatio: activeSpotlight.screenshotDimensions.replace("×", "/") }
+                    : undefined
+                }
+              />
+            </div>
+          )}
           <h2>{activeSpotlight.title}</h2>
           <p className="muted">{activeSpotlight.role}</p>
           <p>{activeSpotlight.description}</p>

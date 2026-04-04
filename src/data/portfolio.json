@@ -6,10 +6,18 @@
       "with": "Personal Project",
       "NDA": false,
       "description": "Desktop app for managing multiple GitHub SSH identities and switching configurations instantly.",
-      "technologies": ["Electron", "TypeScript", "TailwindCSS", "Node.js", "Git"],
+      "technologies": [
+        "Electron",
+        "TypeScript",
+        "TailwindCSS",
+        "Node.js",
+        "Git"
+      ],
       "role": "Creator and Daily Power User",
       "responsibilities": "Designed and built the desktop workflow for profile creation, profile switching, SSH key visibility, and GitHub account setup.",
       "url": "https://github.com/ZemichaelMD/GitHub-SSH-Profile-Manager-GUI",
+      "screenshot": "assets/project_screenshots/github_ssh_profile_manager.png",
+      "screenshotDimensions": "1024×1056",
       "liveUrl": null,
       "type": "desktop",
       "category": "Developer Tooling"
@@ -20,10 +28,18 @@
       "with": "Personal Project",
       "NDA": false,
       "description": "A modern and mobile-first Ethiopian Orthodox Bible reader with 81 books, full-text search, and bilingual verse support.",
-      "technologies": ["Next.js", "TypeScript", "SQLite", "TailwindCSS", "Noto Sans Ethiopic"],
+      "technologies": [
+        "Next.js",
+        "TypeScript",
+        "SQLite",
+        "TailwindCSS",
+        "Noto Sans Ethiopic"
+      ],
       "role": "Full Stack Developer",
       "responsibilities": "Built end-to-end product features including verse search APIs, responsive reading interfaces, Ethiopic typography support, and performance optimization.",
       "url": "https://orthodox-bible-81.vercel.app/",
+      "screenshot": "assets/project_screenshots/orthodox_bible_81.png",
+      "screenshotDimensions": "3108×1926",
       "repoUrl": "https://github.com/ZemichaelMD/orthodox_bible_81",
       "type": "web",
       "category": "Faith + Education"

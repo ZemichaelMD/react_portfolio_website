@@ -15,7 +15,8 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const payload: ContactPayload = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+  const payload: ContactPayload =
+    typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
   const name = sanitizeHeader(payload.name ?? "");
   const email = sanitizeHeader(payload.email ?? "");
@@ -45,8 +46,8 @@ export default async function handler(req: any, res: any) {
     secure,
     auth: {
       user,
-      pass
-    }
+      pass,
+    },
   });
 
   const mailText = [
@@ -57,7 +58,7 @@ export default async function handler(req: any, res: any) {
     `Subject: ${subject}`,
     "",
     "Message:",
-    message
+    message,
   ].join("\n");
 
   try {
@@ -66,7 +67,7 @@ export default async function handler(req: any, res: any) {
       to,
       replyTo: email,
       subject: `[Portfolio] ${subject}`,
-      text: mailText
+      text: mailText,
     });
 
     res.status(200).json({ ok: true });
