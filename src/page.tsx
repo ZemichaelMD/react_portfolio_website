@@ -1,12 +1,14 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import zemichael from "./assets/zemichael.jpeg";
-import sshManagerScreenshot from "./assets/project_screenshots/github_ssh_profile_manager.png";
-import orthodoxBibleScreenshot from "./assets/project_screenshots/orthodox_bible_81.png";
 import addisAbabaUniversity from "./assets/addis_ababa_university.jpeg";
 import bahirDarUniversity from "./assets/bahir_dar_university.jpeg";
+import sshManagerScreenshot from "./assets/project_screenshots/github_ssh_profile_manager.png";
 import worldVision from "./assets/world_vision.jpg";
 import resumeData from "./data/resumeData.json";
 import portfolioData from "./data/portfolio.json";
+import { getProjectScreenshot } from "./data/projectMedia";
+import SiteHeader from "./components/SiteHeader";
 
 type Project = (typeof portfolioData.projects)[number];
 type Experience = (typeof resumeData.workExperience)[number];
@@ -16,28 +18,28 @@ type Volunteering = (typeof resumeData.volunteering)[number];
 type TimelineFilter = "all" | "experience" | "education" | "volunteering";
 type TimelineEvent =
   | {
-    id: string;
-    kind: "experience";
-    title: string;
-    organization: string;
-    period: string;
-    detail: string;
-    experience: Experience;
-    image: string;
-    icon: string;
-    sortTime: number;
-  }
+      id: string;
+      kind: "experience";
+      title: string;
+      organization: string;
+      period: string;
+      detail: string;
+      experience: Experience;
+      image: string;
+      icon: string;
+      sortTime: number;
+    }
   | {
-    id: string;
-    kind: "education" | "volunteering";
-    title: string;
-    organization: string;
-    period: string;
-    detail: string;
-    image: string;
-    icon: string;
-    sortTime: number;
-  };
+      id: string;
+      kind: "education" | "volunteering";
+      title: string;
+      organization: string;
+      period: string;
+      detail: string;
+      image: string;
+      icon: string;
+      sortTime: number;
+    };
 
 type ModalState =
   | { kind: "project"; item: Project }
@@ -47,12 +49,10 @@ type ModalState =
 const projects = portfolioData.projects;
 const spotlightProjects = portfolioData.projects.slice(0, 4);
 const work = resumeData.workExperience.slice(0, 4);
-const defaultSpotlight = portfolioData.projects.find((project) => project.title === "GitHub SSH Profile Manager") ?? spotlightProjects[0];
-
-const screenshotMap: Record<string, string> = {
-  "10": sshManagerScreenshot,
-  "11": orthodoxBibleScreenshot,
-};
+const defaultSpotlight =
+  portfolioData.projects.find(
+    (project) => project.title === "GitHub SSH Profile Manager",
+  ) ?? spotlightProjects[0];
 
 const monthMap: Record<string, number> = {
   jan: 0,
@@ -66,7 +66,7 @@ const monthMap: Record<string, number> = {
   sep: 8,
   oct: 9,
   nov: 10,
-  dec: 11
+  dec: 11,
 };
 
 const parsePeriodStart = (period: string) => {
@@ -75,7 +75,9 @@ const parsePeriodStart = (period: string) => {
   const pieces = firstChunk.split(/\s+/).filter(Boolean);
 
   const year = Number(pieces.find((piece) => /^\d{4}$/.test(piece)) ?? "0");
-  const monthToken = pieces.find((piece) => monthMap[piece.slice(0, 3)] !== undefined);
+  const monthToken = pieces.find(
+    (piece) => monthMap[piece.slice(0, 3)] !== undefined,
+  );
   const month = monthToken ? monthMap[monthToken.slice(0, 3)] : 0;
 
   if (!year) return 0;
@@ -83,22 +85,28 @@ const parsePeriodStart = (period: string) => {
 };
 
 const Page = () => {
-  const [activeSpotlightId, setActiveSpotlightId] = useState(defaultSpotlight?.id ?? "");
+  const [activeSpotlightId, setActiveSpotlightId] = useState(
+    defaultSpotlight?.id ?? "",
+  );
   const [modal, setModal] = useState<ModalState>(null);
   const [timelineFilter, setTimelineFilter] = useState<TimelineFilter>("all");
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [contactStatus, setContactStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
   const [contactFeedback, setContactFeedback] = useState("");
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
     subject: "Client Inquiry",
-    message: ""
+    message: "",
   });
 
   const activeSpotlight = useMemo(
-    () => spotlightProjects.find((project) => project.id === activeSpotlightId) ?? spotlightProjects[0],
-    [activeSpotlightId]
+    () =>
+      spotlightProjects.find((project) => project.id === activeSpotlightId) ??
+      spotlightProjects[0],
+    [activeSpotlightId],
   );
 
   const timelineEvents = useMemo<TimelineEvent[]>(() => {
@@ -112,7 +120,7 @@ const Page = () => {
       experience: item,
       image: item.company.includes("AddWeb") ? sshManagerScreenshot : zemichael,
       icon: "▣",
-      sortTime: parsePeriodStart(item.period)
+      sortTime: parsePeriodStart(item.period),
     }));
 
     const educationEvents = resumeData.education.map((item, index) => ({
@@ -122,9 +130,11 @@ const Page = () => {
       organization: item.institution,
       period: item.period,
       detail: item.status,
-      image: item.institution.includes("Addis") ? addisAbabaUniversity : bahirDarUniversity,
+      image: item.institution.includes("Addis")
+        ? addisAbabaUniversity
+        : bahirDarUniversity,
       icon: "◉",
-      sortTime: parsePeriodStart(item.period)
+      sortTime: parsePeriodStart(item.period),
     }));
 
     const volunteeringEvents = resumeData.volunteering.map((item, index) => ({
@@ -136,22 +146,30 @@ const Page = () => {
       detail: item.highlights[0] ?? "",
       image: worldVision,
       icon: "✶",
-      sortTime: parsePeriodStart(item.period)
+      sortTime: parsePeriodStart(item.period),
     }));
 
-    return [...workEvents, ...educationEvents, ...volunteeringEvents]
-      .sort((a, b) => b.sortTime - a.sortTime);
+    return [...workEvents, ...educationEvents, ...volunteeringEvents].sort(
+      (a, b) => b.sortTime - a.sortTime,
+    );
   }, []);
 
   const filteredTimelineEvents = useMemo(
-    () => timelineEvents.filter((event) => timelineFilter === "all" || event.kind === timelineFilter),
-    [timelineFilter, timelineEvents]
+    () =>
+      timelineEvents.filter(
+        (event) => timelineFilter === "all" || event.kind === timelineFilter,
+      ),
+    [timelineFilter, timelineEvents],
   );
 
   const contactLinks = resumeData.profile.links.slice(0, 5);
-  const currentMsc = resumeData.education.find((item) => item.degree.toLowerCase().includes("msc"));
+  const currentMsc = resumeData.education.find((item) =>
+    item.degree.toLowerCase().includes("msc"),
+  );
 
-  const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleContactSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
     event.preventDefault();
     setContactStatus("sending");
     setContactFeedback("Sending your message...");
@@ -160,9 +178,9 @@ const Page = () => {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(contactForm)
+        body: JSON.stringify(contactForm),
       });
 
       const responseText = await response.text();
@@ -175,7 +193,9 @@ const Page = () => {
       }
 
       if (!response.ok) {
-        throw new Error(payload.error ?? `Unable to send message (${response.status}).`);
+        throw new Error(
+          payload.error ?? `Unable to send message (${response.status}).`,
+        );
       }
 
       setContactStatus("success");
@@ -184,42 +204,23 @@ const Page = () => {
         name: "",
         email: "",
         subject: "Client Inquiry",
-        message: ""
+        message: "",
       });
     } catch (error) {
       setContactStatus("error");
-      setContactFeedback(error instanceof Error ? error.message : "Unable to send message.");
+      setContactFeedback(
+        error instanceof Error ? error.message : "Unable to send message.",
+      );
     }
   };
 
   return (
     <div className="poster">
-
       {/* NAV */}
-      <header className="top-strip" aria-label="Portfolio status">
-        <div className="identity-block">
-          <span className="identity-mark">MD</span>
-          <div>
-            <p className="eyebrow">Personal Site</p>
-            <p className="identity-name">Zemichael Dagnew</p>
-          </div>
-        </div>
-        <div className="pulse-wrap" aria-hidden="true">
-          <span className="pulse-dot" />
-          <span className="pulse-text">Now Crafting Better Product Experiences</span>
-        </div>
-        <div className="signal-card">
-          <img src={sshManagerScreenshot} alt="GitHub SSH Profile Manager interface" />
-          <div className="signal-copy">
-            <p className="eyebrow">Current Focus</p>
-            <p className="signal-line">GitHub SSH Profile Manager is now in the spotlight.</p>
-          </div>
-        </div>
-      </header>
+      <SiteHeader variant="home" />
 
       {/* GRID */}
       <main className="grid">
-
         {/* HERO */}
         <section className="cell hero">
           <img src={zemichael} alt={resumeData.profile.fullName} />
@@ -227,8 +228,16 @@ const Page = () => {
           <div className="hero-text">
             <h1>{resumeData.profile.fullName}</h1>
             <p className="sub">{resumeData.profile.headline}</p>
-            {currentMsc && <p className="hero-academic">{currentMsc.degree} ({currentMsc.status})</p>}
-            <button type="button" className="theme-button hero-message-button" onClick={() => setIsContactModalOpen(true)}>
+            {currentMsc && (
+              <p className="hero-academic">
+                {currentMsc.degree} ({currentMsc.status})
+              </p>
+            )}
+            <button
+              type="button"
+              className="theme-button hero-message-button"
+              onClick={() => setIsContactModalOpen(true)}
+            >
               Send a message
             </button>
           </div>
@@ -246,11 +255,17 @@ const Page = () => {
           {activeSpotlight.screenshot && (
             <div className="spotlight-screenshot">
               <img
-                src={screenshotMap[activeSpotlight.id]}
+                src={getProjectScreenshot(activeSpotlight)}
                 alt={`${activeSpotlight.title} screenshot`}
                 style={
                   activeSpotlight.screenshotDimensions
-                    ? { aspectRatio: activeSpotlight.screenshotDimensions.replace("×", "/") }
+                    ? {
+                        aspectRatio:
+                          activeSpotlight.screenshotDimensions.replace(
+                            "×",
+                            "/",
+                          ),
+                      }
                     : undefined
                 }
               />
@@ -263,7 +278,9 @@ const Page = () => {
 
           <div className="chip-wrap">
             {activeSpotlight.technologies.slice(0, 5).map((tech) => (
-              <span key={tech} className="tech-chip">{tech}</span>
+              <span key={tech} className="tech-chip">
+                {tech}
+              </span>
             ))}
           </div>
 
@@ -275,7 +292,10 @@ const Page = () => {
             View Full Project
           </button>
 
-          <div className="feature-switches" aria-label="Switch project spotlight">
+          <div
+            className="feature-switches"
+            aria-label="Switch project spotlight"
+          >
             {spotlightProjects.map((project) => (
               <button
                 key={project.id}
@@ -293,7 +313,14 @@ const Page = () => {
         <section className="cell timeline-card">
           <h3>Experience</h3>
           <div className="timeline-filters">
-            {(["all", "experience", "education", "volunteering"] as TimelineFilter[]).map((kind) => (
+            {(
+              [
+                "all",
+                "experience",
+                "education",
+                "volunteering",
+              ] as TimelineFilter[]
+            ).map((kind) => (
               <button
                 key={kind}
                 type="button"
@@ -305,21 +332,40 @@ const Page = () => {
             ))}
           </div>
 
-          <div className="timeline-scroll" role="list" aria-label="Career and education timeline">
+          <div
+            className="timeline-scroll"
+            role="list"
+            aria-label="Career and education timeline"
+          >
             {filteredTimelineEvents.map((event) => (
               <article
                 key={event.id}
                 className={`timeline-event is-${event.kind} ${event.kind === "experience" ? "timeline-event-clickable" : ""}`}
                 role="listitem"
-                onClick={event.kind === "experience" ? () => setModal({ kind: "experience", item: event.experience }) : undefined}
+                onClick={
+                  event.kind === "experience"
+                    ? () =>
+                        setModal({ kind: "experience", item: event.experience })
+                    : undefined
+                }
               >
-                <span className={`timeline-dot is-${event.kind}`} aria-hidden="true" />
+                <span
+                  className={`timeline-dot is-${event.kind}`}
+                  aria-hidden="true"
+                />
                 <div className="timeline-content">
                   <div className="timeline-headline">
                     <p className="timeline-period">{event.period}</p>
                     <div className="timeline-head">
-                      <img src={event.image} alt="" className="timeline-thumb" aria-hidden="true" />
-                      <span className="timeline-icon" aria-hidden="true">{event.icon}</span>
+                      <img
+                        src={event.image}
+                        alt=""
+                        className="timeline-thumb"
+                        aria-hidden="true"
+                      />
+                      <span className="timeline-icon" aria-hidden="true">
+                        {event.icon}
+                      </span>
                     </div>
                   </div>
                   <h4>{event.title}</h4>
@@ -329,7 +375,9 @@ const Page = () => {
                     <button
                       type="button"
                       className="timeline-open"
-                      onClick={() => setModal({ kind: "experience", item: event.experience })}
+                      onClick={() =>
+                        setModal({ kind: "experience", item: event.experience })
+                      }
                     >
                       Open details
                     </button>
@@ -344,27 +392,38 @@ const Page = () => {
 
         {/* PROJECTS */}
         <section className="cell projects-card">
-          <h3>Projects</h3>
+          <div className="projects-card-header">
+            <h3>Projects</h3>
+            <a href="/projects" className="view-all-link">
+              View all →
+            </a>
+          </div>
           <div className="projects-scroll">
             {projects.map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              className="item item-button"
-              onClick={() => setModal({ kind: "project", item: p })}
-            >
-              <strong>{p.title}</strong>
-              <span className="muted">{p.role}</span>
-              <div className="project-badges">
-                <span className={`project-badge ${p.NDA ? "is-nda" : "is-open"}`}>
-                  {p.NDA ? "NDA Protected" : "Public"}
-                </span>
-                <span className={`project-badge ${p.with && p.with.toLowerCase().includes("personal") ? "is-personal" : "is-company"}`}>
-                  {p.with && p.with.toLowerCase().includes("personal") ? "Personal" : "Company"}
-                </span>
-              </div>
-              <span className="click-hint">Open details</span>
-            </button>
+              <button
+                key={p.id}
+                type="button"
+                className="item item-button"
+                onClick={() => setModal({ kind: "project", item: p })}
+              >
+                <strong>{p.title}</strong>
+                <span className="muted">{p.role}</span>
+                <div className="project-badges">
+                  <span
+                    className={`project-badge ${p.NDA ? "is-nda" : "is-open"}`}
+                  >
+                    {p.NDA ? "NDA Protected" : "Public"}
+                  </span>
+                  <span
+                    className={`project-badge ${p.with && p.with.toLowerCase().includes("personal") ? "is-personal" : "is-company"}`}
+                  >
+                    {p.with && p.with.toLowerCase().includes("personal")
+                      ? "Personal"
+                      : "Company"}
+                  </span>
+                </div>
+                <span className="click-hint">Open details</span>
+              </button>
             ))}
           </div>
         </section>
@@ -385,7 +444,9 @@ const Page = () => {
               <p className="timeline-period">Engineering</p>
               <div className="chip-wrap">
                 {resumeData.skills.engineering.slice(0, 10).map((skill) => (
-                  <span key={skill} className="tech-chip">{skill}</span>
+                  <span key={skill} className="tech-chip">
+                    {skill}
+                  </span>
                 ))}
               </div>
             </div>
@@ -394,7 +455,9 @@ const Page = () => {
               <p className="timeline-period">Platform</p>
               <div className="chip-wrap">
                 {resumeData.skills.platforms.slice(0, 8).map((skill) => (
-                  <span key={skill} className="tech-chip">{skill}</span>
+                  <span key={skill} className="tech-chip">
+                    {skill}
+                  </span>
                 ))}
               </div>
             </div>
@@ -402,38 +465,71 @@ const Page = () => {
             <div className="skill-group">
               <p className="timeline-period">Design + Architecture</p>
               <div className="chip-wrap">
-                {resumeData.skills.designArchitecture.slice(0, 8).map((skill) => (
-                  <span key={skill} className="tech-chip">{skill}</span>
-                ))}
+                {resumeData.skills.designArchitecture
+                  .slice(0, 8)
+                  .map((skill) => (
+                    <span key={skill} className="tech-chip">
+                      {skill}
+                    </span>
+                  ))}
               </div>
             </div>
           </div>
         </section>
 
+        {/* BLOG */}
+        <section className="cell blog-card">
+          <div className="blog-card-header">
+            <h3>Blog</h3>
+            <a href="/blog" className="view-all-link">
+              Read all →
+            </a>
+          </div>
+          <p>Thoughts on engineering, product design, and building software.</p>
+          <a href="/blog" className="theme-button">
+            Visit Blog
+          </a>
+        </section>
+
         {/* CONTACT */}
         <section className="cell contact-card">
           <h3>Contact</h3>
-          <a className="contact-primary" href={`mailto:${resumeData.profile.email}`}>
+          <a
+            className="contact-primary"
+            href={`mailto:${resumeData.profile.email}`}
+          >
             {resumeData.profile.email}
           </a>
-          <a className="contact-primary" href={`tel:${resumeData.profile.phone}`}>
+          <a
+            className="contact-primary"
+            href={`tel:${resumeData.profile.phone}`}
+          >
             {resumeData.profile.phone}
           </a>
           <p className="meta">{resumeData.profile.location}</p>
 
           <div className="contact-links">
             {contactLinks.map((link) => (
-              <a key={link.label} className="theme-link" href={link.url} target="_blank" rel="noreferrer">
+              <a
+                key={link.label}
+                className="theme-link"
+                href={link.url}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {link.label}
               </a>
             ))}
           </div>
 
-          <button type="button" className="theme-button" onClick={() => setIsContactModalOpen(true)}>
+          <button
+            type="button"
+            className="theme-button"
+            onClick={() => setIsContactModalOpen(true)}
+          >
             Send a message
           </button>
         </section>
-
       </main>
 
       {modal && (
@@ -445,8 +541,16 @@ const Page = () => {
             onClick={(event) => event.stopPropagation()}
           >
             <div className="modal-head">
-              <p className="eyebrow">{modal.kind === "project" ? "Project Detail" : "Experience Detail"}</p>
-              <button type="button" className="modal-close" onClick={() => setModal(null)}>
+              <p className="eyebrow">
+                {modal.kind === "project"
+                  ? "Project Detail"
+                  : "Experience Detail"}
+              </p>
+              <button
+                type="button"
+                className="modal-close"
+                onClick={() => setModal(null)}
+              >
                 Close
               </button>
             </div>
@@ -455,7 +559,10 @@ const Page = () => {
               <div className="modal-content">
                 <div className="modal-title-block">
                   <h2>{modal.item.title}</h2>
-                  <p className="muted">{modal.item.role} {modal.item.with ? `• ${modal.item.with}` : ""}</p>
+                  <p className="muted">
+                    {modal.item.role}{" "}
+                    {modal.item.with ? `• ${modal.item.with}` : ""}
+                  </p>
                 </div>
 
                 <div className="modal-copy">
@@ -470,20 +577,34 @@ const Page = () => {
 
                 <div className="chip-wrap">
                   {modal.item.technologies.map((tech) => (
-                    <span key={tech} className="tech-chip">{tech}</span>
+                    <span key={tech} className="tech-chip">
+                      {tech}
+                    </span>
                   ))}
                 </div>
 
                 <div className="modal-actions">
                   {modal.item.url ? (
-                    <a className="theme-link" href={modal.item.url} target="_blank" rel="noreferrer">
+                    <a
+                      className="theme-link"
+                      href={modal.item.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       Visit Project
                     </a>
                   ) : (
-                    <p className="meta">Live link unavailable (NDA or internal system).</p>
+                    <p className="meta">
+                      Live link unavailable (NDA or internal system).
+                    </p>
                   )}
                   {"repoUrl" in modal.item && modal.item.repoUrl && (
-                    <a className="theme-link" href={modal.item.repoUrl} target="_blank" rel="noreferrer">
+                    <a
+                      className="theme-link"
+                      href={modal.item.repoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       View Repository
                     </a>
                   )}
@@ -494,7 +615,10 @@ const Page = () => {
                 <div className="modal-title-block">
                   <h2>{modal.item.title}</h2>
                   <p className="muted">{modal.item.company}</p>
-                  <p className="meta">{modal.item.period} • {modal.item.type} • {modal.item.locationMode}</p>
+                  <p className="meta">
+                    {modal.item.period} • {modal.item.type} •{" "}
+                    {modal.item.locationMode}
+                  </p>
                 </div>
 
                 <div className="modal-section">
@@ -504,17 +628,26 @@ const Page = () => {
 
                 <div className="modal-list" aria-label="key achievements">
                   {modal.item.achievements.map((achievement) => (
-                    <p key={achievement} className="modal-bullet">{achievement}</p>
+                    <p key={achievement} className="modal-bullet">
+                      {achievement}
+                    </p>
                   ))}
                 </div>
 
                 <div className="chip-wrap">
                   {modal.item.stack.slice(0, 10).map((tech) => (
-                    <span key={tech} className="tech-chip">{tech}</span>
+                    <span key={tech} className="tech-chip">
+                      {tech}
+                    </span>
                   ))}
                 </div>
                 {modal.item.website && (
-                  <a className="theme-link" href={modal.item.website} target="_blank" rel="noreferrer">
+                  <a
+                    className="theme-link"
+                    href={modal.item.website}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     Visit Company
                   </a>
                 )}
@@ -525,7 +658,10 @@ const Page = () => {
       )}
 
       {isContactModalOpen && (
-        <div className="modal-overlay" onClick={() => setIsContactModalOpen(false)}>
+        <div
+          className="modal-overlay"
+          onClick={() => setIsContactModalOpen(false)}
+        >
           <article
             className="modal-card contact-modal"
             role="dialog"
@@ -534,19 +670,31 @@ const Page = () => {
           >
             <div className="modal-head">
               <p className="eyebrow">Quick Client Message</p>
-              <button type="button" className="modal-close" onClick={() => setIsContactModalOpen(false)}>
+              <button
+                type="button"
+                className="modal-close"
+                onClick={() => setIsContactModalOpen(false)}
+              >
                 Close
               </button>
             </div>
 
-            <form className="modal-content contact-form" onSubmit={handleContactSubmit}>
+            <form
+              className="modal-content contact-form"
+              onSubmit={handleContactSubmit}
+            >
               <label className="field-wrap">
                 <span className="modal-label">Name</span>
                 <input
                   className="field-input"
                   type="text"
                   value={contactForm.name}
-                  onChange={(event) => setContactForm((prev) => ({ ...prev, name: event.target.value }))}
+                  onChange={(event) =>
+                    setContactForm((prev) => ({
+                      ...prev,
+                      name: event.target.value,
+                    }))
+                  }
                   required
                 />
               </label>
@@ -557,7 +705,12 @@ const Page = () => {
                   className="field-input"
                   type="email"
                   value={contactForm.email}
-                  onChange={(event) => setContactForm((prev) => ({ ...prev, email: event.target.value }))}
+                  onChange={(event) =>
+                    setContactForm((prev) => ({
+                      ...prev,
+                      email: event.target.value,
+                    }))
+                  }
                   required
                 />
               </label>
@@ -568,7 +721,12 @@ const Page = () => {
                   className="field-input"
                   type="text"
                   value={contactForm.subject}
-                  onChange={(event) => setContactForm((prev) => ({ ...prev, subject: event.target.value }))}
+                  onChange={(event) =>
+                    setContactForm((prev) => ({
+                      ...prev,
+                      subject: event.target.value,
+                    }))
+                  }
                   required
                 />
               </label>
@@ -578,17 +736,28 @@ const Page = () => {
                 <textarea
                   className="field-input field-textarea"
                   value={contactForm.message}
-                  onChange={(event) => setContactForm((prev) => ({ ...prev, message: event.target.value }))}
+                  onChange={(event) =>
+                    setContactForm((prev) => ({
+                      ...prev,
+                      message: event.target.value,
+                    }))
+                  }
                   required
                 />
               </label>
 
               <div className="modal-actions">
-                <button type="submit" className="theme-button" disabled={contactStatus === "sending"}>
+                <button
+                  type="submit"
+                  className="theme-button"
+                  disabled={contactStatus === "sending"}
+                >
                   {contactStatus === "sending" ? "Sending..." : "Send Message"}
                 </button>
                 {contactFeedback && (
-                  <p className={`meta ${contactStatus === "error" ? "feedback-error" : "feedback-success"}`}>
+                  <p
+                    className={`meta ${contactStatus === "error" ? "feedback-error" : "feedback-success"}`}
+                  >
                     {contactFeedback}
                   </p>
                 )}
@@ -601,7 +770,9 @@ const Page = () => {
       {/* FOOTER */}
       <footer className="footer">
         <span>{resumeData.profile.location}</span>
-        <span>{work[0].title} @ {work[0].company}</span>
+        <span>
+          {work[0].title} @ {work[0].company}
+        </span>
       </footer>
     </div>
   );

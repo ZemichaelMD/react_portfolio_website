@@ -60,6 +60,8 @@
       "role": "Full Stack Developer",
       "responsibilities": "Built and shipped tutoring workflows, learning experience features, and full-stack platform integrations.",
       "url": "https://menesha-next-app.vercel.app",
+      "screenshot": "assets/project_screenshots/menesha.jpg",
+      "screenshotDimensions": "1373×1092",
       "type": "web",
       "category": "E-Learning"
     },
@@ -105,6 +107,8 @@
       "role": "Full Stack Laravel Developer",
       "responsibilities": "Develop, add features and maintaining the application",
       "url": "https://voxabot.com",
+      "screenshot": "assets/project_screenshots/voxabot-logo.png",
+      "screenshotDimensions": "256×256",
       "type": "web",
       "category": "AI/TTS"
     },

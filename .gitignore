@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+index.css
 *.local
 
 # Editor directories and files
@@ -29,3 +30,5 @@ dist-ssr
 
 # ainotes
 .ai_notes
+.vercel
+.env*.local

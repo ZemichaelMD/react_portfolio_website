@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum BlogPostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model BlogPost {
+  id            String         @id @default(cuid())
+  title         String
+  slug          String         @unique
+  excerpt       String         @db.Text
+  contentHtml   String         @db.Text
+  contentJson   Json
+  tags          String[]       @default([])
+  coverImageUrl String?
+  coverAssetId  String?
+  status        BlogPostStatus @default(DRAFT)
+  isFeatured    Boolean        @default(false)
+  readingMinutes Int           @default(1)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  publishedAt   DateTime?
+  coverAsset    BlogAsset?     @relation("CoverImage", fields: [coverAssetId], references: [id], onDelete: SetNull)
+  assets        BlogAsset[]    @relation("PostAssets")
+
+  @@index([status, publishedAt(sort: Desc)])
+}
+
+model BlogAsset {
+  id        String     @id @default(cuid())
+  fileName  String
+  mimeType  String
+  byteSize  Int
+  data      Bytes
+  altText   String?
+  createdAt DateTime   @default(now())
+  postId    String?
+  post      BlogPost?  @relation("PostAssets", fields: [postId], references: [id], onDelete: SetNull)
+  coverFor  BlogPost[] @relation("CoverImage")
+
+  @@index([postId])
+}
