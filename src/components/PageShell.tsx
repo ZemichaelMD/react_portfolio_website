@@ -1,19 +1,22 @@
-import SiteHeader from "../components/SiteHeader";
-import resumeData from "../data/resumeData.json";
+import SiteFooter from "./SiteFooter";
+import SiteHeader from "./SiteHeader";
 
 type PageShellProps = {
   children: React.ReactNode;
+  hideContactBand?: boolean;
 };
 
-const PageShell = ({ children }: PageShellProps) => {
+const PageShell = ({ children, hideContactBand = false }: PageShellProps) => {
   return (
-    <div className="poster">
-      <SiteHeader variant="page" />
-      <main className="grid">{children}</main>
-      <footer className="footer">
-        <span>{resumeData.profile.location}</span>
-        <span>&copy; {new Date().getFullYear()} Zemichael Dagnew</span>
-      </footer>
+    <div className="site-shell" id="top">
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <SiteHeader />
+      <main className="site-main" id="main" tabIndex={-1}>
+        {children}
+      </main>
+      <SiteFooter compact={hideContactBand} />
     </div>
   );
 };

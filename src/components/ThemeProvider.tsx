@@ -31,6 +31,14 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
     window.localStorage.setItem(STORAGE_KEY, theme);
+
+    const themeColor = document.querySelector<HTMLMetaElement>(
+      'meta[name="theme-color"]',
+    );
+    themeColor?.setAttribute(
+      "content",
+      theme === "dark" ? "#101611" : "#f3f0e8",
+    );
   }, [theme]);
 
   return (

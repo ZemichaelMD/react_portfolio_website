@@ -1,164 +1,123 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import PageShell from "../components/PageShell";
+import ProjectCard from "../components/ProjectCard";
+import ProjectDialog from "../components/ProjectDialog";
 import portfolioData from "../data/portfolio.json";
-import { getProjectScreenshot } from "../data/projectMedia";
+import { getDiscipline } from "../data/content";
+import type { Project } from "../data/content";
+import { ArrowUpRight } from "../components/Icons";
 
-type Project = (typeof portfolioData.projects)[number];
+type Discipline = "All" | "Full-stack" | "Frontend" | "Backend" | "Desktop";
+
+const disciplines: Discipline[] = [
+  "All",
+  "Full-stack",
+  "Frontend",
+  "Backend",
+  "Desktop",
+];
+
+const projects = portfolioData.projects as Project[];
 
 const ProjectsPage = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [filter, setFilter] = useState<string>("all");
+  const [discipline, setDiscipline] = useState<Discipline>("All");
 
-  const projects = portfolioData.projects as Project[];
-  const categories = ["all", ...Array.from(new Set(projects.map((p) => p.category)))];
+  const counts = useMemo(() => {
+    const next = new Map<Discipline, number>();
+    next.set("All", projects.length);
+
+    projects.forEach((project) => {
+      const key = getDiscipline(project) as Discipline;
+      next.set(key, (next.get(key) ?? 0) + 1);
+    });
+
+    return next;
+  }, []);
+
   const filteredProjects =
-    filter === "all" ? projects : projects.filter((p) => p.category === filter);
+    discipline === "All"
+      ? projects
+      : projects.filter((project) => getDiscipline(project) === discipline);
 
-  const totalProjects = projects.length;
-  const publicProjects = projects.filter((p) => !p.NDA).length;
-  const techCount = new Set(projects.flatMap((p) => p.technologies)).size;
+  const publicCount = projects.filter((project) => !project.NDA).length;
 
   return (
-    <PageShell>
-      <section className="cell project-hero">
-        <div className="project-hero-overlay" />
-        <div className="project-hero-text">
-          <p className="eyebrow">Portfolio</p>
-          <h1>Projects</h1>
-          <p className="sub">{totalProjects} projects · {publicProjects} public · {techCount} technologies</p>
-        </div>
-      </section>
+    <PageShell hideContactBand>
+      <div className="page">
+        <header className="page-head container">
+          <p className="page-meta">
+            {projects.length} projects · {publicCount} public ·{" "}
+            {projects.length - publicCount} under NDA
+          </p>
+          <h1>Work that ships.</h1>
+          <p className="page-lede">
+            Production platforms, internal systems, and a few tools built to
+            make my own work faster. Some are public; most live inside client
+            operations.
+          </p>
+        </header>
 
-      <section className="cell project-stats">
-        <div className="stat-block">
-          <span className="stat-number">{totalProjects}</span>
-          <span className="stat-label">Total Projects</span>
-        </div>
-        <div className="stat-block">
-          <span className="stat-number">{publicProjects}</span>
-          <span className="stat-label">Public</span>
-        </div>
-        <div className="stat-block">
-          <span className="stat-number">{techCount}</span>
-          <span className="stat-label">Technologies</span>
-        </div>
-        <div className="stat-block">
-          <span className="stat-number">{categories.length - 1}</span>
-          <span className="stat-label">Categories</span>
-        </div>
-      </section>
-
-      <section className="cell project-filters">
-        <div className="filter-scroll">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              className={`filter-pill ${filter === cat ? "is-active" : ""}`}
-              onClick={() => setFilter(cat)}
-            >
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {filteredProjects.map((project, i) => (
-        <button
-          key={project.id}
-          type="button"
-          className={`cell project-tile ${i % 3 === 0 ? "is-featured" : ""}`}
-          onClick={() => setSelectedProject(project)}
-        >
-          {getProjectScreenshot(project) && (
-            <div className="tile-screenshot">
-              <img src={getProjectScreenshot(project)} alt="" />
-            </div>
-          )}
-          <p className="eyebrow">{project.category}</p>
-          <h3>{project.title}</h3>
-          <p className="muted-small">{project.role}</p>
-          <p className="tile-description">{project.description}</p>
-          <div className="chip-wrap">
-            {project.technologies.slice(0, 4).map((tech) => (
-              <span key={`${project.id}-${tech}`} className="tech-chip">{tech}</span>
+        <div className="container">
+          <div
+            className="filters"
+            role="group"
+            aria-label="Filter projects by discipline"
+          >
+            {disciplines.map((item) => (
+              <button
+                key={item}
+                type="button"
+                className={`filter${discipline === item ? " is-active" : ""}`}
+                onClick={() => setDiscipline(item)}
+                aria-pressed={discipline === item}
+              >
+                {item}
+                <span className="filter-count">{counts.get(item) ?? 0}</span>
+              </button>
             ))}
           </div>
-          <div className="tile-badges">
-            <span className={`project-badge ${project.NDA ? "is-nda" : "is-open"}`}>
-              {project.NDA ? "NDA" : "Public"}
-            </span>
+
+          <p className="visually-hidden" aria-live="polite">
+            {filteredProjects.length} projects shown.
+          </p>
+
+          <div className="project-grid">
+            {filteredProjects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                layout="grid"
+                onOpen={setSelectedProject}
+              />
+            ))}
           </div>
-        </button>
-      ))}
 
-      <section className="cell project-cta">
-        <h3>Interested in working together?</h3>
-        <p>Let's discuss how my experience can help bring your ideas to life.</p>
-        <a href="/contact" className="theme-button">Get in Touch</a>
-      </section>
+          <p className="page-note">
+            Product screenshots and live links are shared where confidentiality
+            allows. For NDA-protected work, I&rsquo;m happy to walk through the
+            build in a conversation.
+          </p>
 
-      {selectedProject && (
-        <div className="modal-overlay" onClick={() => setSelectedProject(null)}>
-          <article
-            className="modal-card"
-            role="dialog"
-            aria-modal="true"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-head">
-              <p className="eyebrow">Project Detail</p>
-              <button type="button" className="modal-close" onClick={() => setSelectedProject(null)}>
-                Close
-              </button>
-            </div>
-            <div className="modal-content">
-              {getProjectScreenshot(selectedProject) && (
-                <div className="modal-screenshot">
-                  <img src={getProjectScreenshot(selectedProject)} alt="" />
-                </div>
-              )}
-              <div className="modal-title-block">
-                <h2>{selectedProject.title}</h2>
-                <p className="muted">
-                  {selectedProject.role} {selectedProject.with ? `• ${selectedProject.with}` : ""}
-                </p>
-              </div>
-              <div className="modal-copy">
-                <p>{selectedProject.description}</p>
-                {"responsibilities" in selectedProject && (
-                  <p className="meta">{selectedProject.responsibilities}</p>
-                )}
-              </div>
-              {"category" in selectedProject && (
-                <div className="modal-section">
-                  <p className="modal-label">Category</p>
-                  <p className="modal-value">{selectedProject.category}</p>
-                </div>
-              )}
-              <div className="chip-wrap">
-                {selectedProject.technologies.map((tech) => (
-                  <span key={tech} className="tech-chip">{tech}</span>
-                ))}
-              </div>
-              <div className="modal-actions">
-                {selectedProject.url ? (
-                  <a className="theme-link" href={selectedProject.url} target="_blank" rel="noreferrer">
-                    Visit Project
-                  </a>
-                ) : (
-                  <p className="meta">Live link unavailable (NDA or internal system).</p>
-                )}
-                {"repoUrl" in selectedProject && selectedProject.repoUrl && (
-                  <a className="theme-link" href={selectedProject.repoUrl} target="_blank" rel="noreferrer">
-                    View Repository
-                  </a>
-                )}
-              </div>
-            </div>
-          </article>
+          <div className="page-end">
+            <h2>Have something worth building?</h2>
+            <a
+              className="button"
+              href="mailto:zemichaelmd@gmail.com?subject=Project%20inquiry"
+            >
+              Start a conversation
+              <ArrowUpRight size={15} />
+            </a>
+          </div>
         </div>
-      )}
+      </div>
+
+      {selectedProject ? (
+        <ProjectDialog
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      ) : null}
     </PageShell>
   );
 };

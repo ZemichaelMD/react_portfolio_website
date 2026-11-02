@@ -20,7 +20,8 @@ const AdminLoginPage = () => {
   const [error, setError] = useState("");
 
   const targetPath =
-    (location.state as { from?: string } | null)?.from && (location.state as { from?: string }).from !== "/studio/login"
+    (location.state as { from?: string } | null)?.from &&
+    (location.state as { from?: string }).from !== "/studio/login"
       ? (location.state as { from?: string }).from
       : "/studio";
 
@@ -57,88 +58,127 @@ const AdminLoginPage = () => {
 
       navigate(targetPath, { replace: true });
     } catch (authError) {
-      setError(authError instanceof Error ? authError.message : "Authentication failed.");
+      setError(
+        authError instanceof Error ? authError.message : "Authentication failed.",
+      );
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <PageShell>
-      <section className="cell admin-auth-shell">
-        <p className="eyebrow">Hidden Studio</p>
-        <h1>Blog admin access</h1>
-        <p className="sub">
-          This route is intentionally not linked in the public navigation. Use your Neon Auth credentials to manage posts.
-        </p>
-      </section>
+    <PageShell hideContactBand>
+      <div className="page">
+        <header className="page-head container">
+          <p className="page-meta">Private studio</p>
+          <h1>Blog admin access</h1>
+          <p className="page-lede">
+            This route is intentionally not linked in the public navigation. Use
+            your Neon Auth credentials to manage posts.
+          </p>
+        </header>
 
-      <section className="cell admin-auth-panel">
-        <div className="admin-auth-mode-row">
-          <button
-            type="button"
-            className={`filter-pill ${mode === "sign-in" ? "is-active" : ""}`}
-            onClick={() => setMode("sign-in")}
-          >
-            Sign in
-          </button>
-          <button
-            type="button"
-            className={`filter-pill ${mode === "sign-up" ? "is-active" : ""}`}
-            onClick={() => setMode("sign-up")}
-          >
-            Create account
-          </button>
-        </div>
+        <div className="container admin-auth-wrap">
+          <div className="panel">
+            <div className="filter-row" role="group" aria-label="Authentication mode">
+              <button
+                type="button"
+                className={`filter${mode === "sign-in" ? " is-active" : ""}`}
+                onClick={() => setMode("sign-in")}
+                aria-pressed={mode === "sign-in"}
+              >
+                Sign in
+              </button>
+              <button
+                type="button"
+                className={`filter${mode === "sign-up" ? " is-active" : ""}`}
+                onClick={() => setMode("sign-up")}
+                aria-pressed={mode === "sign-up"}
+              >
+                Create account
+              </button>
+            </div>
 
-        <form className="contact-form admin-auth-form" onSubmit={handleSubmit}>
-          {mode === "sign-up" && (
-            <label className="field-wrap">
-              <span className="modal-label">Name</span>
-              <input
-                type="text"
-                className="field-input"
-                value={form.name}
-                onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-                placeholder="Zemichael Dagnew"
-              />
-            </label>
-          )}
+            <form className="admin-form" onSubmit={handleSubmit}>
+              {mode === "sign-up" ? (
+                <div className="form-field">
+                  <label htmlFor="admin-name">Name</label>
+                  <input
+                    id="admin-name"
+                    type="text"
+                    className="form-input"
+                    value={form.name}
+                    onChange={(event) =>
+                      setForm((current) => ({
+                        ...current,
+                        name: event.target.value,
+                      }))
+                    }
+                    placeholder="Zemichael Dagnew"
+                  />
+                </div>
+              ) : null}
 
-          <label className="field-wrap">
-            <span className="modal-label">Email</span>
-            <input
-              type="email"
-              className="field-input"
-              value={form.email}
-              onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
-              required
-            />
-          </label>
+              <div className="form-field">
+                <label htmlFor="admin-email">Email</label>
+                <input
+                  id="admin-email"
+                  type="email"
+                  className="form-input"
+                  value={form.email}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      email: event.target.value,
+                    }))
+                  }
+                  autoComplete="email"
+                  required
+                />
+              </div>
 
-          <label className="field-wrap">
-            <span className="modal-label">Password</span>
-            <input
-              type="password"
-              className="field-input"
-              value={form.password}
-              onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
-              required
-            />
-          </label>
+              <div className="form-field">
+                <label htmlFor="admin-password">Password</label>
+                <input
+                  id="admin-password"
+                  type="password"
+                  className="form-input"
+                  value={form.password}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      password: event.target.value,
+                    }))
+                  }
+                  autoComplete={
+                    mode === "sign-in" ? "current-password" : "new-password"
+                  }
+                  required
+                />
+              </div>
 
-          {error && <p className="meta feedback-error">{error}</p>}
+              {error ? (
+                <p className="form-status form-status--error" role="alert">
+                  {error}
+                </p>
+              ) : null}
 
-          <div className="editor-actions">
-            <Link to="/blog" className="theme-button theme-button-outline">
-              Back to blog
-            </Link>
-            <button type="submit" className="theme-button" disabled={submitting}>
-              {submitting ? "Working..." : mode === "sign-up" ? "Create admin account" : "Sign in"}
-            </button>
+              <div className="editor-actions">
+                <Link to="/blog" className="text-link">
+                  Back to blog
+                </Link>
+                <button type="submit" className="button" disabled={submitting}>
+                  {submitting
+                    ? "Working…"
+                    : mode === "sign-up"
+                      ? "Create admin account"
+                      : "Sign in"}
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-      </section>
+        </div>
+      </div>
     </PageShell>
   );
 };

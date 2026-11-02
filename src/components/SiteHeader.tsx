@@ -1,100 +1,184 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "./ThemeProvider";
-
-type SiteHeaderProps = {
-  variant?: "home" | "page";
-};
+import { ArchMark, Close, Menu, Moon, Sun } from "./Icons";
+import resumeData from "../data/resumeData.json";
 
 const navItems = [
-  { label: "Home", to: "/" },
-  { label: "Projects", to: "/projects" },
-  { label: "Blog", to: "/blog" },
+  { label: "Work", to: "/projects" },
+  { label: "About", to: "/#about" },
+  { label: "Writing", to: "/blog" },
   { label: "Contact", to: "/contact" },
 ];
 
-const SiteHeader = ({ variant = "page" }: SiteHeaderProps) => {
+const isNavActive = (pathname: string, hash: string, to: string) => {
+  if (to.startsWith("/#")) {
+    return pathname === "/" && hash === to.slice(1);
+  }
+  return pathname === to || pathname.startsWith(`${to}/`);
+};
+
+const SiteHeader = () => {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const focusTimer = window.setTimeout(() => firstLinkRef.current?.focus(), 30);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+        toggleRef.current?.focus();
+        return;
+      }
+
+      if (event.key !== "Tab" || !menuRef.current) return;
+
+      const focusable = Array.from(
+        menuRef.current.querySelectorAll<HTMLElement>("a[href], button"),
+      );
+
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.clearTimeout(focusTimer);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileOpen]);
 
   return (
-    <header className="site-header" aria-label="Main navigation">
-      <div className="site-header-inner">
-        <div className="site-header-brand">
-          <Link
-            to="/"
-            className="identity-mark-link"
-            onClick={() => setMobileOpen(false)}
-          >
-            <span className="identity-mark">Z</span>
-          </Link>
-          <div className="site-header-brand-text">
-            <p className="eyebrow">Personal Site</p>
-            <p className="identity-name">Zemichael Dagnew</p>
-          </div>
-        </div>
+    <header className="site-header">
+      <div className="container header-inner">
+        <Link to="/" className="brand" aria-label="Zemichael Mehretu Dagnew, home">
+          <ArchMark className="brand-mark" size={24} />
+          <span className="brand-text">
+            <span className="brand-name">Zemichael Mehretu</span>
+            <span className="brand-role">AI software architect</span>
+          </span>
+        </Link>
 
-        <nav className={`site-header-nav ${mobileOpen ? "is-open" : ""}`}>
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className={`nav-link ${location.pathname === item.to ? "is-active" : ""}`}
-              onClick={() => setMobileOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav className="site-nav" aria-label="Primary navigation">
+          {navItems.map((item) => {
+            const active = isNavActive(
+              location.pathname,
+              location.hash,
+              item.to,
+            );
+
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                className={active ? "is-active" : undefined}
+                aria-current={
+                  active
+                    ? item.to.startsWith("/#")
+                      ? "location"
+                      : "page"
+                    : undefined
+                }
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="site-header-actions">
-          <div className="site-header-context">
-            <p className="signal-line">
-              {getContextText(location.pathname, variant)}
-            </p>
-          </div>
+        <div className="header-actions">
+          <button
+            type="button"
+            className="icon-button"
+            onClick={toggleTheme}
+            aria-label={
+              theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+            }
+            title={theme === "dark" ? "Light theme" : "Dark theme"}
+          >
+            {theme === "dark" ? <Sun /> : <Moon />}
+          </button>
 
           <button
             type="button"
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            aria-pressed={theme === "dark"}
+            className="icon-button menu-button"
+            onClick={() => setMobileOpen((open) => !open)}
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
+            ref={toggleRef}
           >
-            <span className="theme-toggle-label">{theme === "dark" ? "Light" : "Dark"}</span>
-            <span className="theme-toggle-icon" aria-hidden="true">
-              {theme === "dark" ? "Sun" : "Moon"}
-            </span>
+            {mobileOpen ? <Close size={17} /> : <Menu />}
           </button>
         </div>
-
-        <button
-          type="button"
-          className="mobile-menu-toggle"
-          aria-label="Toggle navigation menu"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          <span className={`hamburger-line ${mobileOpen ? "is-open" : ""}`} />
-          <span className={`hamburger-line ${mobileOpen ? "is-open" : ""}`} />
-          <span className={`hamburger-line ${mobileOpen ? "is-open" : ""}`} />
-        </button>
       </div>
+
+      {mobileOpen ? (
+        <div className="mobile-nav" id="mobile-navigation" ref={menuRef}>
+          <nav className="mobile-nav-links" aria-label="Mobile navigation">
+            {navItems.map((item, index) => {
+              const active = isNavActive(
+                location.pathname,
+                location.hash,
+                item.to,
+              );
+
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  ref={index === 0 ? firstLinkRef : undefined}
+                  className={active ? "is-active" : undefined}
+                  aria-current={
+                    active
+                      ? item.to.startsWith("/#")
+                        ? "location"
+                        : "page"
+                      : undefined
+                  }
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="mobile-nav-foot">
+            <p>Open to AI architecture and platform work.</p>
+            <a href={`mailto:${resumeData.profile.email}`}>
+              {resumeData.profile.email}
+            </a>
+          </div>
+        </div>
+      ) : null}
     </header>
   );
-};
-
-const getContextText = (pathname: string, variant: string): string => {
-  if (variant === "home")
-    return "Open to new opportunities and collaborations.";
-  if (pathname.startsWith("/studio/posts/")) return "Editing in the studio";
-  if (pathname.startsWith("/studio/login")) return "Private studio access";
-  if (pathname.startsWith("/studio")) return "Managing blog posts";
-  if (pathname.startsWith("/blog/")) return "Reading a blog post";
-  if (pathname.startsWith("/blog")) return "Exploring the blog";
-  if (pathname.startsWith("/projects")) return "Browsing projects";
-  if (pathname.startsWith("/contact")) return "Get in touch";
-  return "Navigating the site";
 };
 
 export default SiteHeader;

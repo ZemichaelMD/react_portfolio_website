@@ -9,7 +9,7 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="ds-shell">
-      <SiteHeader variant="page" />
+      <SiteHeader />
       <main className="ds-grid">{children}</main>
       <footer className="ds-footer">
         <span>{resumeData.profile.location}</span>

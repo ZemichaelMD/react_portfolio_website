@@ -21,7 +21,9 @@ const AdminDashboardPage = () => {
       const result = await blogService.getAll({ admin: true });
       setPosts(result);
     } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : "Unable to load posts.");
+      setError(
+        loadError instanceof Error ? loadError.message : "Unable to load posts.",
+      );
     } finally {
       setLoading(false);
     }
@@ -39,7 +41,11 @@ const AdminDashboardPage = () => {
       await blogService.delete(post.id);
       await loadPosts();
     } catch (deleteError) {
-      setError(deleteError instanceof Error ? deleteError.message : "Unable to delete the post.");
+      setError(
+        deleteError instanceof Error
+          ? deleteError.message
+          : "Unable to delete the post.",
+      );
     } finally {
       setBusyId(null);
     }
@@ -65,7 +71,11 @@ const AdminDashboardPage = () => {
 
       await loadPosts();
     } catch (updateError) {
-      setError(updateError instanceof Error ? updateError.message : "Unable to update the post.");
+      setError(
+        updateError instanceof Error
+          ? updateError.message
+          : "Unable to update the post.",
+      );
     } finally {
       setBusyId(null);
     }
@@ -76,94 +86,134 @@ const AdminDashboardPage = () => {
     navigate("/blog");
   };
 
-  const publishedCount = posts.filter((post) => post.status === "published").length;
+  const publishedCount = posts.filter(
+    (post) => post.status === "published",
+  ).length;
   const draftCount = posts.filter((post) => post.status === "draft").length;
 
   return (
-    <PageShell>
-      <section className="cell studio-hero">
-        <p className="eyebrow">Studio</p>
-        <h1>Manage blog posts</h1>
-        <p className="sub">Private admin surface for drafts, publishing, and post maintenance.</p>
-      </section>
+    <PageShell hideContactBand>
+      <div className="page">
+        <header className="page-head container">
+          <p className="page-meta">Private studio</p>
+          <h1>Manage the writing.</h1>
+          <p className="page-lede">
+            Drafts, publishing, and post maintenance. This surface is private
+            and separate from the public site.
+          </p>
+        </header>
 
-      <section className="cell studio-stats">
-        <div className="stat-block">
-          <span className="stat-number">{posts.length}</span>
-          <span className="stat-label">Total Posts</span>
-        </div>
-        <div className="stat-block">
-          <span className="stat-number">{publishedCount}</span>
-          <span className="stat-label">Published</span>
-        </div>
-        <div className="stat-block">
-          <span className="stat-number">{draftCount}</span>
-          <span className="stat-label">Drafts</span>
-        </div>
-        <div className="studio-action-row">
-          <Link to="/studio/posts/new" className="theme-button">
-            New Post
-          </Link>
-          <button type="button" className="theme-button theme-button-outline" onClick={handleSignOut}>
-            Sign out
-          </button>
-        </div>
-      </section>
+        <div className="container">
+          <div className="admin-topbar">
+            <div className="admin-stats">
+              <div>
+                <strong>{posts.length}</strong>
+                <span>Total posts</span>
+              </div>
+              <div>
+                <strong>{publishedCount}</strong>
+                <span>Published</span>
+              </div>
+              <div>
+                <strong>{draftCount}</strong>
+                <span>Drafts</span>
+              </div>
+            </div>
 
-      <section className="cell studio-table">
-        {loading ? (
-          <p className="muted">Loading posts...</p>
-        ) : error ? (
-          <p className="meta feedback-error">{error}</p>
-        ) : (
-          <div className="studio-post-list">
-            {posts.map((post) => (
-              <article key={post.id} className="studio-post-row">
-                <div className="studio-post-main">
-                  <p className="eyebrow">
-                    {post.status} · {post.readingMinutes} min read
-                  </p>
-                  <h3>{post.title}</h3>
-                  <p className="muted-small">{post.excerpt}</p>
-                  <div className="chip-wrap">
-                    {post.tags.map((tag) => (
-                      <span key={tag} className="tech-chip">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="studio-post-actions">
-                  <Link to={`/studio/posts/${post.id}/edit`} className="theme-button theme-button-outline">
-                    Edit
-                  </Link>
-                  <button
-                    type="button"
-                    className="theme-button theme-button-outline"
-                    onClick={() => void handleTogglePublish(post)}
-                    disabled={busyId === post.id}
-                  >
-                    {busyId === post.id
-                      ? "Saving..."
-                      : post.status === "published"
-                        ? "Move to draft"
-                        : "Publish"}
-                  </button>
-                  <button
-                    type="button"
-                    className="theme-button theme-button-outline danger-button"
-                    onClick={() => void handleDelete(post)}
-                    disabled={busyId === post.id}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </article>
-            ))}
+            <div className="admin-actions">
+              <Link to="/studio/posts/new" className="button button--small">
+                New post
+              </Link>
+              <button
+                type="button"
+                className="button button--small button--ghost"
+                onClick={handleSignOut}
+              >
+                Sign out
+              </button>
+            </div>
           </div>
-        )}
-      </section>
+
+          {loading ? (
+            <div className="state-panel">
+              <p className="state-title">Loading posts…</p>
+            </div>
+          ) : error ? (
+            <div className="state-panel" role="alert">
+              <p className="state-title">Something went wrong.</p>
+              <p className="state-copy">{error}</p>
+              <button
+                type="button"
+                className="text-link"
+                onClick={() => void loadPosts()}
+              >
+                Try again
+              </button>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="state-panel">
+              <p className="state-title">No posts yet.</p>
+              <p className="state-copy">
+                The studio is empty. Start with a draft and publish when it is
+                ready.
+              </p>
+              <Link className="button button--small" to="/studio/posts/new">
+                Write the first post
+              </Link>
+            </div>
+          ) : (
+            <div className="admin-list">
+              {posts.map((post) => (
+                <article key={post.id} className="admin-row">
+                  <div className="admin-row-main">
+                    <p className="page-meta">
+                      {post.status} · {post.readingMinutes} min read
+                    </p>
+                    <h3>{post.title}</h3>
+                    <p className="admin-excerpt">{post.excerpt}</p>
+                    <div className="tag-row">
+                      {post.tags.map((tag) => (
+                        <span className="tag" key={tag}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="admin-actions">
+                    <Link
+                      to={`/studio/posts/${post.id}/edit`}
+                      className="button button--small button--ghost"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      type="button"
+                      className="button button--small button--ghost"
+                      onClick={() => void handleTogglePublish(post)}
+                      disabled={busyId === post.id}
+                    >
+                      {busyId === post.id
+                        ? "Saving…"
+                        : post.status === "published"
+                          ? "Move to draft"
+                          : "Publish"}
+                    </button>
+                    <button
+                      type="button"
+                      className="button button--small button--danger"
+                      onClick={() => void handleDelete(post)}
+                      disabled={busyId === post.id}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </PageShell>
   );
 };

@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 
+import PageShell from "./PageShell";
 import { authClient } from "../lib/auth";
 
 type AdminRouteProps = {
@@ -12,15 +13,20 @@ const AdminRoute = ({ children }: AdminRouteProps) => {
 
   if (session.isPending) {
     return (
-      <div className="poster">
-        <main className="grid">
-          <section className="cell admin-auth-shell">
-            <p className="eyebrow">Studio</p>
-            <h1>Checking session</h1>
-            <p className="muted">Verifying your Neon Auth session.</p>
-          </section>
-        </main>
-      </div>
+      <PageShell hideContactBand>
+        <div className="page">
+          <div className="container">
+            <div className="state-panel" aria-live="polite" aria-busy="true">
+              <p className="page-meta">Private studio</p>
+              <p className="state-title">Checking your session…</p>
+              <p className="state-copy">
+                Verifying your Neon Auth session. This should only take a
+                moment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </PageShell>
     );
   }
 

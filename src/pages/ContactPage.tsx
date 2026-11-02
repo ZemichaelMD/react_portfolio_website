@@ -1,22 +1,38 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import resumeData from "../data/resumeData.json";
+import { ArrowUpRight } from "../components/Icons";
+
+const emptyForm = {
+  name: "",
+  email: "",
+  subject: "Project inquiry",
+  message: "",
+};
+
+const formatPhone = (phone: string) => {
+  const match = phone.match(/^\+251(\d{3})(\d{3})(\d{3})$/);
+  return match ? `+251 ${match[1]} ${match[2]} ${match[3]}` : phone;
+};
+
+type FormState = typeof emptyForm;
+type Status = "idle" | "sending" | "success" | "error";
+
+const fallbackError = `The message couldn't be sent just now. Please email ${resumeData.profile.email} instead.`;
 
 const ContactPage = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    subject: "Client Inquiry",
-    message: "",
-  });
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [form, setForm] = useState<FormState>(emptyForm);
+  const [status, setStatus] = useState<Status>("idle");
   const [feedback, setFeedback] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const updateField = (field: keyof FormState, value: string) => {
+    setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setStatus("sending");
-    setFeedback("Sending your message...");
+    setFeedback("Sending your message…");
 
     try {
       const response = await fetch("/api/contact", {
@@ -35,117 +51,200 @@ const ContactPage = () => {
       }
 
       if (!response.ok) {
-        throw new Error(payload.error ?? `Unable to send message (${response.status}).`);
+        const isValidationError =
+          response.status === 400 || response.status === 422;
+
+        throw new Error(
+          isValidationError ? (payload.error ?? fallbackError) : fallbackError,
+        );
       }
 
       setStatus("success");
-      setFeedback("Thanks. Your message has been sent.");
-      setForm({ name: "", email: "", subject: "Client Inquiry", message: "" });
+      setFeedback("Thanks. Your message is on its way.");
+      setForm(emptyForm);
     } catch (error) {
+      const message =
+        error instanceof Error &&
+        !/failed to fetch|load failed|networkerror/i.test(error.message)
+          ? error.message
+          : fallbackError;
+
       setStatus("error");
-      setFeedback(error instanceof Error ? error.message : "Unable to send message.");
+      setFeedback(message);
     }
   };
 
+  const socialLinks = resumeData.profile.links.filter(
+    (link) => link.label !== "Website" && link.label !== "Portfolio Source",
+  );
+
   return (
-    <PageShell>
-      <section className="cell contact-hero">
-        <div className="contact-hero-overlay" />
-        <div className="contact-hero-text">
-          <p className="eyebrow">Contact</p>
-          <h1>Get in Touch</h1>
-          <p className="sub">Have a project in mind or want to collaborate? Reach out through any of the channels below.</p>
-        </div>
-      </section>
-
-      <section className="cell contact-info">
-        <h3>Direct Contact</h3>
-        <a className="contact-primary" href={`mailto:${resumeData.profile.email}`}>
-          {resumeData.profile.email}
-        </a>
-        <a className="contact-primary" href={`tel:${resumeData.profile.phone}`}>
-          {resumeData.profile.phone}
-        </a>
-        <p className="meta">{resumeData.profile.location}</p>
-      </section>
-
-      <section className="cell contact-links-cell">
-        <h3>Connect</h3>
-        <div className="contact-links-grid">
-          {resumeData.profile.links.map((link) => (
-            <a key={link.label} className="contact-link-card" href={link.url} target="_blank" rel="noreferrer">
-              <span className="link-label">{link.label}</span>
-              <span className="link-arrow">→</span>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section className="cell contact-form-cell">
-        <h3>Send a Message</h3>
-        <form className="contact-form" onSubmit={handleSubmit}>
-          <label className="field-wrap">
-            <span className="modal-label">Name</span>
-            <input
-              type="text"
-              className="field-input"
-              value={form.name}
-              onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
-              required
-            />
-          </label>
-
-          <label className="field-wrap">
-            <span className="modal-label">Email</span>
-            <input
-              type="email"
-              className="field-input"
-              value={form.email}
-              onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
-              required
-            />
-          </label>
-
-          <label className="field-wrap">
-            <span className="modal-label">Subject</span>
-            <input
-              type="text"
-              className="field-input"
-              value={form.subject}
-              onChange={(e) => setForm((prev) => ({ ...prev, subject: e.target.value }))}
-              required
-            />
-          </label>
-
-          <label className="field-wrap">
-            <span className="modal-label">Message</span>
-            <textarea
-              className="field-input field-textarea"
-              value={form.message}
-              onChange={(e) => setForm((prev) => ({ ...prev, message: e.target.value }))}
-              required
-            />
-          </label>
-
-          <button type="submit" className="theme-button" disabled={status === "sending"}>
-            {status === "sending" ? "Sending..." : "Send Message"}
-          </button>
-
-          {feedback && (
-            <p className={`meta ${status === "error" ? "feedback-error" : "feedback-success"}`}>
-              {feedback}
+    <PageShell hideContactBand>
+      <div className="page contact-page">
+        <div className="container contact-layout">
+          <section className="contact-intro">
+            <p className="status-line">
+              <span className="status-dot" aria-hidden="true" />
+              Open to new opportunities and collaborations
             </p>
-          )}
-        </form>
-      </section>
 
-      <section className="cell contact-cta">
-        <h3>Prefer email?</h3>
-        <a className="contact-primary" href={`mailto:${resumeData.profile.email}`}>
-          {resumeData.profile.email}
-        </a>
-        <p className="muted">I typically respond within 24 hours.</p>
-      </section>
+            <h1>Let&rsquo;s build something that holds.</h1>
+            <p className="page-lede">
+              I&rsquo;m open to full-stack engineering roles, product work, and
+              collaborations that need both structure and finish. Tell me what
+              you&rsquo;re making.
+            </p>
+
+            <div className="contact-direct">
+              <p className="contact-label">Email me directly</p>
+              <a
+                className="contact-email"
+                href={`mailto:${resumeData.profile.email}`}
+              >
+                {resumeData.profile.email}
+                <ArrowUpRight size={19} />
+              </a>
+            </div>
+
+            <dl className="contact-facts">
+              <div>
+                <dt>Based in</dt>
+                <dd>{resumeData.profile.location}</dd>
+              </div>
+              <div>
+                <dt>Phone</dt>
+                <dd>
+                  <a href={`tel:${resumeData.profile.phone}`}>
+                    {formatPhone(resumeData.profile.phone)}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Languages</dt>
+                <dd>{resumeData.profile.languages.join(", ")}</dd>
+              </div>
+              <div>
+                <dt>Response time</dt>
+                <dd>Usually within 24 hours</dd>
+              </div>
+            </dl>
+
+            <div className="contact-elsewhere">
+              <p className="contact-label">Elsewhere</p>
+              <div className="contact-socials">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {link.label}
+                    <ArrowUpRight size={13} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="contact-form-panel" aria-labelledby="contact-form-title">
+            <p className="page-meta">Start a conversation</p>
+            <h2 id="contact-form-title">Send a message</h2>
+            <p className="contact-form-intro">
+              A short note is enough. Include the problem, the timeline, and
+              what success looks like.
+            </p>
+
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="form-grid">
+                <div className="form-field">
+                  <label htmlFor="contact-name">Name</label>
+                  <input
+                    id="contact-name"
+                    className="form-input"
+                    type="text"
+                    name="name"
+                    autoComplete="name"
+                    value={form.name}
+                    onChange={(event) => updateField("name", event.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="form-field">
+                  <label htmlFor="contact-email">Email</label>
+                  <input
+                    id="contact-email"
+                    className="form-input"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    value={form.email}
+                    onChange={(event) =>
+                      updateField("email", event.target.value)
+                    }
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="contact-subject">Subject</label>
+                <input
+                  id="contact-subject"
+                  className="form-input"
+                  type="text"
+                  name="subject"
+                  value={form.subject}
+                  onChange={(event) =>
+                    updateField("subject", event.target.value)
+                  }
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="contact-message">Message</label>
+                <textarea
+                  id="contact-message"
+                  className="form-input form-textarea"
+                  name="message"
+                  value={form.message}
+                  onChange={(event) =>
+                    updateField("message", event.target.value)
+                  }
+                  required
+                />
+              </div>
+
+              <div className="form-actions">
+                <button
+                  type="submit"
+                  className="button"
+                  disabled={status === "sending"}
+                >
+                  {status === "sending" ? "Sending…" : "Send message"}
+                </button>
+                {feedback ? (
+                  <p
+                    className={`form-status ${
+                      status === "error"
+                        ? "form-status--error"
+                        : status === "success"
+                          ? "form-status--success"
+                          : "form-status--pending"
+                    }`}
+                    role={status === "error" ? "alert" : "status"}
+                    aria-live="polite"
+                  >
+                    {feedback}
+                  </p>
+                ) : null}
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
     </PageShell>
   );
 };

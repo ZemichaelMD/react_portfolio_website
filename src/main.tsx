@@ -1,5 +1,11 @@
+import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import "./utils/designSystem.css";
 
@@ -15,10 +21,41 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AdminRoute from "./components/AdminRoute";
 import { ThemeProvider } from "./components/ThemeProvider";
 
+const ScrollManager = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (location.hash) {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const target = document.getElementById(id);
+
+      if (target) {
+        const timer = window.setTimeout(() => {
+          target.scrollIntoView({
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+            block: "start",
+          });
+        }, 30);
+
+        return () => window.clearTimeout(timer);
+      }
+    }
+
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [location.pathname, location.hash]);
+
+  return null;
+};
+
 const App = () => {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <ScrollManager />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/projects" element={<ProjectsPage />} />

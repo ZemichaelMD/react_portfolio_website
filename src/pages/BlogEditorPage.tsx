@@ -26,7 +26,9 @@ const BlogEditorPage = () => {
   const [tagsInput, setTagsInput] = useState("");
   const [coverImageUrl, setCoverImageUrl] = useState("");
   const [coverAssetId, setCoverAssetId] = useState("");
-  const [status, setStatus] = useState<"draft" | "published" | "archived">("draft");
+  const [status, setStatus] = useState<"draft" | "published" | "archived">(
+    "draft",
+  );
   const [isFeatured, setIsFeatured] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -55,7 +57,11 @@ const BlogEditorPage = () => {
         setStatus(post.status);
         setIsFeatured(post.isFeatured);
       } catch (loadError) {
-        setError(loadError instanceof Error ? loadError.message : "Failed to load the post.");
+        setError(
+          loadError instanceof Error
+            ? loadError.message
+            : "Failed to load the post.",
+        );
       } finally {
         setLoading(false);
       }
@@ -79,22 +85,38 @@ const BlogEditorPage = () => {
       setCoverImageUrl(asset.url);
       setCoverAssetId(asset.id);
     } catch (uploadError) {
-      setError(uploadError instanceof Error ? uploadError.message : "Failed to upload cover image.");
+      setError(
+        uploadError instanceof Error
+          ? uploadError.message
+          : "Failed to upload cover image.",
+      );
     } finally {
       setUploadingCover(false);
     }
   };
 
   const handleSave = async () => {
-    if (!title.trim()) { setError("Title is required."); return; }
-    if (!excerpt.trim()) { setError("Excerpt is required."); return; }
-    if (!contentHtml.trim() || contentHtml === "<p></p>") { setError("Content is required."); return; }
+    if (!title.trim()) {
+      setError("Title is required.");
+      return;
+    }
+    if (!excerpt.trim()) {
+      setError("Excerpt is required.");
+      return;
+    }
+    if (!contentHtml.trim() || contentHtml === "<p></p>") {
+      setError("Content is required.");
+      return;
+    }
 
     setSaving(true);
     setError("");
 
     try {
-      const tags = tagsInput.split(",").map((t) => t.trim()).filter(Boolean);
+      const tags = tagsInput
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter(Boolean);
       const input = {
         title,
         slug,
@@ -108,9 +130,10 @@ const BlogEditorPage = () => {
         isFeatured,
       };
 
-      const post = isEditing && id
-        ? await blogService.update(id, input)
-        : await blogService.create(input);
+      const post =
+        isEditing && id
+          ? await blogService.update(id, input)
+          : await blogService.create(input);
 
       if (!post) {
         throw new Error("Failed to save the post.");
@@ -122,161 +145,200 @@ const BlogEditorPage = () => {
         navigate("/studio");
       }
     } catch (saveError) {
-      setError(saveError instanceof Error ? saveError.message : "Failed to save post. Please try again.");
+      setError(
+        saveError instanceof Error
+          ? saveError.message
+          : "Failed to save post. Please try again.",
+      );
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <PageShell>
-      <section className="cell editor-header">
-        <p className="eyebrow">Studio Editor</p>
-        <h1>{isEditing ? "Edit post" : "Compose new post"}</h1>
-        <p className="muted">Rich editor with headings, lists, images, links, and code blocks.</p>
-      </section>
+    <PageShell hideContactBand>
+      <div className="page">
+        <header className="page-head container">
+          <p className="page-meta">Studio editor</p>
+          <h1>{isEditing ? "Edit the note." : "Compose a new note."}</h1>
+          <p className="page-lede">
+            Rich text with headings, lists, images, links, and code blocks.
+            Drafts stay private until you publish.
+          </p>
+        </header>
 
-      <section className="cell editor-form">
-        {loading ? (
-          <p className="muted">Loading post...</p>
-        ) : (
-          <>
-        <label className="field-wrap">
-          <span className="modal-label">Title</span>
-          <input
-            type="text"
-            className="field-input"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Post title"
-          />
-        </label>
+        <div className="container editor-layout">
+          <div className="panel">
+            {loading ? (
+              <p className="state-copy">Loading post…</p>
+            ) : (
+              <div className="editor-form">
+                <div className="form-field">
+                  <label htmlFor="post-title">Title</label>
+                  <input
+                    id="post-title"
+                    type="text"
+                    className="form-input"
+                    value={title}
+                    onChange={(event) => setTitle(event.target.value)}
+                    placeholder="Post title"
+                  />
+                </div>
 
-        <label className="field-wrap">
-          <span className="modal-label">Slug</span>
-          <input
-            type="text"
-            className="field-input"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-            placeholder="optional-custom-slug"
-          />
-          <p className="meta">Leave empty to generate from the title.</p>
-        </label>
+                <div className="form-field">
+                  <label htmlFor="post-slug">Slug</label>
+                  <input
+                    id="post-slug"
+                    type="text"
+                    className="form-input"
+                    value={slug}
+                    onChange={(event) => setSlug(event.target.value)}
+                    placeholder="optional-custom-slug"
+                  />
+                  <p className="field-note">
+                    Leave empty to generate one from the title.
+                  </p>
+                </div>
 
-        <label className="field-wrap">
-          <span className="modal-label">Excerpt</span>
-          <input
-            type="text"
-            className="field-input"
-            value={excerpt}
-            onChange={(e) => setExcerpt(e.target.value)}
-            placeholder="Brief summary shown in the blog list"
-          />
-        </label>
+                <div className="form-field">
+                  <label htmlFor="post-excerpt">Excerpt</label>
+                  <input
+                    id="post-excerpt"
+                    type="text"
+                    className="form-input"
+                    value={excerpt}
+                    onChange={(event) => setExcerpt(event.target.value)}
+                    placeholder="Brief summary shown in the blog list"
+                  />
+                </div>
 
-        <label className="field-wrap">
-          <span className="modal-label">Cover Image URL</span>
-          <input
-            type="url"
-            className="field-input"
-            value={coverImageUrl}
-            onChange={(e) => {
-              setCoverImageUrl(e.target.value);
-              if (e.target.value.trim()) {
-                setCoverAssetId("");
-              }
-            }}
-            placeholder="https://example.com/image.jpg"
-          />
-          <div className="editor-inline-actions">
-            <label className="theme-button theme-button-outline editor-upload-cover">
-              {uploadingCover ? "Uploading..." : "Upload cover image"}
-              <input
-                type="file"
-                accept="image/*"
-                className="editor-hidden-input"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  void handleCoverUpload(file);
-                  event.currentTarget.value = "";
-                }}
-              />
-            </label>
+                <div className="form-field">
+                  <label htmlFor="post-cover">Cover image URL</label>
+                  <input
+                    id="post-cover"
+                    type="url"
+                    className="form-input"
+                    value={coverImageUrl}
+                    onChange={(event) => {
+                      setCoverImageUrl(event.target.value);
+                      if (event.target.value.trim()) {
+                        setCoverAssetId("");
+                      }
+                    }}
+                    placeholder="https://example.com/image.jpg"
+                  />
+                  <div className="editor-inline-actions">
+                    <label className="button button--small button--ghost editor-upload-cover">
+                      {uploadingCover ? "Uploading…" : "Upload cover image"}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="editor-hidden-input"
+                        onChange={(event) => {
+                          const file = event.target.files?.[0];
+                          void handleCoverUpload(file);
+                          event.currentTarget.value = "";
+                        }}
+                      />
+                    </label>
+                  </div>
+                  <p className="field-note">
+                    Optional. Use a hosted image URL or upload directly into
+                    Neon storage.
+                  </p>
+                </div>
+
+                <div className="form-field">
+                  <span className="form-label">Body</span>
+                  <RichTextEditor
+                    value={editorValue}
+                    onChange={(snapshot) => {
+                      setContentHtml(snapshot.html);
+                      setContentJson(snapshot.json);
+                      if (!excerpt.trim() && snapshot.text.trim()) {
+                        setExcerpt(snapshot.text.trim().slice(0, 180));
+                      }
+                    }}
+                  />
+                  <p className="field-note">
+                    Uploaded inline images are stored in Neon and rendered
+                    through the public asset API.
+                  </p>
+                </div>
+
+                <div className="form-field">
+                  <label htmlFor="post-tags">Tags</label>
+                  <input
+                    id="post-tags"
+                    type="text"
+                    className="form-input"
+                    value={tagsInput}
+                    onChange={(event) => setTagsInput(event.target.value)}
+                    placeholder="react, typescript, webdev"
+                  />
+                  <p className="field-note">Comma-separated tags.</p>
+                </div>
+
+                <div className="editor-options">
+                  <label className="checkbox-row">
+                    <input
+                      type="checkbox"
+                      checked={isFeatured}
+                      onChange={(event) => setIsFeatured(event.target.checked)}
+                    />
+                    <span>Show this post first in the public writing list</span>
+                  </label>
+
+                  <div className="form-field form-field--inline">
+                    <label htmlFor="post-status">Status</label>
+                    <select
+                      id="post-status"
+                      className="form-input form-select"
+                      value={status}
+                      onChange={(event) =>
+                        setStatus(
+                          event.target.value as
+                            | "draft"
+                            | "published"
+                            | "archived",
+                        )
+                      }
+                    >
+                      <option value="draft">Draft</option>
+                      <option value="published">Published</option>
+                      <option value="archived">Archived</option>
+                    </select>
+                  </div>
+                </div>
+
+                {error ? (
+                  <p className="form-status form-status--error" role="alert">
+                    {error}
+                  </p>
+                ) : null}
+
+                <div className="editor-actions">
+                  <Link to="/studio" className="text-link">
+                    Cancel
+                  </Link>
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={handleSave}
+                    disabled={saving}
+                  >
+                    {saving
+                      ? "Saving…"
+                      : status === "published"
+                        ? "Publish"
+                        : "Save"}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
-          <p className="meta">Optional. Use a hosted image URL or upload directly into Neon storage.</p>
-        </label>
-
-        <label className="field-wrap">
-          <span className="modal-label">Body</span>
-          <RichTextEditor
-            value={editorValue}
-            onChange={(snapshot) => {
-              setContentHtml(snapshot.html);
-              setContentJson(snapshot.json);
-              if (!excerpt.trim() && snapshot.text.trim()) {
-                setExcerpt(snapshot.text.trim().slice(0, 180));
-              }
-            }}
-          />
-          <p className="meta">Uploaded inline images are stored in Neon and rendered through the public asset API.</p>
-        </label>
-
-        <label className="field-wrap">
-          <span className="modal-label">Tags</span>
-          <input
-            type="text"
-            className="field-input"
-            value={tagsInput}
-            onChange={(e) => setTagsInput(e.target.value)}
-            placeholder="react, typescript, webdev"
-          />
-          <p className="meta">Comma-separated tags.</p>
-        </label>
-
-        <label className="field-wrap checkbox-field">
-          <span className="modal-label">Featured Post</span>
-          <label className="checkbox-row">
-            <input
-              type="checkbox"
-              checked={isFeatured}
-              onChange={(event) => setIsFeatured(event.target.checked)}
-            />
-            <span>Show this post first in the public blog list</span>
-          </label>
-        </label>
-
-        <label className="field-wrap">
-          <span className="modal-label">Status</span>
-          <select
-            className="field-input"
-            value={status}
-            onChange={(e) => setStatus(e.target.value as "draft" | "published" | "archived")}
-          >
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-            <option value="archived">Archived</option>
-          </select>
-        </label>
-
-        {error && <p className="meta feedback-error">{error}</p>}
-
-        <div className="editor-actions">
-          <Link to="/studio" className="theme-button theme-button-outline">
-            Cancel
-          </Link>
-          <button
-            type="button"
-            className="theme-button"
-            onClick={handleSave}
-            disabled={saving}
-          >
-            {saving ? "Saving..." : status === "published" ? "Publish" : "Save"}
-          </button>
         </div>
-          </>
-        )}
-      </section>
+      </div>
     </PageShell>
   );
 };
